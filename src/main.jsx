@@ -9,23 +9,22 @@ import { Toaster } from "@/shadcomponents/ui/toaster"
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import AuthRouter from "./Auth/AuthRouter.jsx";
-import Test from "./pages/Test.jsx";
+import Feed from "./pages/Feed.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <>
         <App />
-     
       </>
     ),
     children: [
       {
-        path: "/test",
+        path: "/",
         element: <AuthRouter >
-          <Test/>
+          <Feed/>
         </AuthRouter>,
-      }
+      },
     ],
   },
   {
