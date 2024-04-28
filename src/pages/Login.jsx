@@ -59,13 +59,11 @@ console.log(data);
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter Your username" {...field} />
+                        <Input placeholder="Enter Your password" {...field} />
                       </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
+                    
                       <FormMessage />
                     </FormItem>
                   )}
