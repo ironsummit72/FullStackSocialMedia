@@ -6,6 +6,10 @@ import Login from "@/pages/Login.jsx";
 import Register from "@/pages/Register.jsx";
 import { Toaster as Sooner } from "@/shadcomponents/ui/sonner";
 import { Toaster } from "@/shadcomponents/ui/toaster"
+import { Provider } from "react-redux";
+import store from "./redux/store.js";
+import AuthRouter from "./Auth/AuthRouter.jsx";
+import Test from "./pages/Test.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -15,7 +19,14 @@ const router = createBrowserRouter([
      
       </>
     ),
-    children: [],
+    children: [
+      {
+        path: "/test",
+        element: <AuthRouter >
+          <Test/>
+        </AuthRouter>,
+      }
+    ],
   },
   {
     path: "/login",
@@ -25,12 +36,13 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+ 
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
- <>
+ <Provider store={store}>
   <RouterProvider router={router} />
   <Sooner/>
   <Toaster/>
- </>
+ </Provider>
 );
