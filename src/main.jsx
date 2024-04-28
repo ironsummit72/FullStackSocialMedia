@@ -4,10 +4,17 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "@/pages/Login.jsx";
 import Register from "@/pages/Register.jsx";
+import { Toaster as Sooner } from "@/shadcomponents/ui/sonner";
+import { Toaster } from "@/shadcomponents/ui/toaster"
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <>
+        <App />
+     
+      </>
+    ),
     children: [],
   },
   {
@@ -21,5 +28,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+ <>
   <RouterProvider router={router} />
+  <Sooner/>
+  <Toaster/>
+ </>
 );
