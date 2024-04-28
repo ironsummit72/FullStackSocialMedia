@@ -11,7 +11,10 @@ function App() {
       .get("/getcurrentuser")
       .then((res) => {
         console.log(res.data.data);
-        dispatch(authenticateUser(res.data.data));
+        const dataUser=res.data.data
+        if(dataUser){
+          dispatch(authenticateUser(dataUser));
+        }
       })
       .catch((err) => {
         console.log(err);
