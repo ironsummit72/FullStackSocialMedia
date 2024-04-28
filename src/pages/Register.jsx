@@ -13,8 +13,14 @@ import { useForm } from "react-hook-form";
 import { RegisterFormSchema } from "@/validation/ZodValidation";
 import { Button } from "@/shadcomponents/ui/button";
 import { Link } from "react-router-dom";
-import { axiosInstance } from "@/axios/axiosInstance";
+import { axiosInstanceWithCredentials } from "@/axios/axiosInstance";
+import { useToast } from "@/shadcomponents/ui/use-toast";
+import { useNavigate } from "react-router-dom";
+
 function Register() {
+  const navigate=useNavigate();
+
+  const {toast}=useToast()
   const form = useForm({
     resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
@@ -27,7 +33,23 @@ function Register() {
     },
   });
   const onSubmit = (data) => {
-    console.log(data);
+    axiosInstanceWithCredentials.post('auth/register',data).then(response => {
+      console.log(response);
+      toast({
+        title:`${response?.data?.message}`,
+        description:`${data.username} your account has been successfully redirecting to Login page`
+      })
+      setTimeout(() =>{
+        navigate('/login',{replace:true});
+        
+      },2000)
+    }).catch((err)=>{
+      toast({
+          title: `${err?.response?.data.message}`,
+          description: "User did not register",
+          variant: "destructive",
+      })
+    })
   };
   return (
     <section className="bg-gray-50">
@@ -113,7 +135,7 @@ function Register() {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your password" {...field} />
+                        <Input type="password" placeholder="Enter your password" {...field} />
                       </FormControl>
 
                       <FormMessage />
@@ -127,7 +149,7 @@ function Register() {
                     <FormItem>
                       <FormLabel>Confirm password</FormLabel>
                       <FormControl>
-                        <Input placeholder="Confirm Password" {...field} />
+                        <Input type='password' placeholder="Confirm Password" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
