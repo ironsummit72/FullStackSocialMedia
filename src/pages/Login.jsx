@@ -8,12 +8,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/shadcomponents/ui/form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { LoginFormSchema } from "@/validation/ZodValidation";
 import { Button } from "@/shadcomponents/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@/shadcomponents/ui/use-toast";
+import { axiosInstanceWithCredentials } from "@/axios/axiosInstance";
+
 function Login() {
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
@@ -22,8 +28,26 @@ function Login() {
     },
   });
   const onSubmit = (data) => {
-console.log(data);
-
+    axiosInstanceWithCredentials
+      .post("auth/login", data)
+      .then((response) => {
+        console.log(response.data);
+        toast({
+          varient: "success",
+          title: `Welcome back ${response.data.data}`,
+          description: `${response?.data?.message} Redirecting to Home page`,
+        });
+        setTimeout(() => {
+          navigate(response?.data?.redirectUrl);
+        }, 2000);
+      })
+      .catch((err) => {
+        toast({
+          title: `${err?.response?.data.message}`,
+          description: "Login Failed",
+          variant: "destructive",
+        });
+      });
   };
   return (
     <section className="bg-gray-50">
@@ -61,21 +85,30 @@ console.log(data);
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter Your password" {...field} />
+                        <Input
+                          type="password"
+                          placeholder="Enter Your password"
+                          {...field}
+                        />
                       </FormControl>
-                    
+
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-               
-                
+
                 <Button className="w-full" type="submit">
                   Login
                 </Button>
                 <p className="text-sm font-light text-gray-500">
-                            Don’t have an account yet? <Link to="/register" className="font-medium text-blue-600 hover:underline ">Register</Link>
-                        </p>
+                  Don’t have an account yet?{" "}
+                  <Link
+                    to="/register"
+                    className="font-medium text-blue-600 hover:underline "
+                  >
+                    Register
+                  </Link>
+                </p>
               </form>
             </Form>
           </div>
