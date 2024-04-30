@@ -16,7 +16,7 @@ connectDB()
 if (!fs.existsSync('uploads')) [fs.mkdirSync('uploads')]
 app.use(
 	cors({
-		origin: 'http://localhost:5173',
+		origin: EnvConf.ORIGIN_URL,
 		credentials: true,
 	}),
 )
