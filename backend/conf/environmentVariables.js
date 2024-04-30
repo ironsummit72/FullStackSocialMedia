@@ -4,5 +4,6 @@ const EnvConf = {
 	APP_PORT: process.env.APP_PORT,
 	JWT_SECRET: process.env.JWT_SECRET,
 	DB_NAME: process.env.DB_NAME,
+	ORIGIN_URL: process.env.ORIGIN_URL
 }
 export default EnvConf
