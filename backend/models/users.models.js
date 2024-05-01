@@ -10,6 +10,14 @@ const userSchema = new Schema({
 	firstname: {type: String, require: true},
 	lastname: {type: String, require: true},
 	password: {type: String, require: true},
+	displaypicture: {
+		type: String,
+		default: '',
+	},
+	coverpicture: {
+		type: String,
+		default: '',
+	},
 	posts: {
 		type: Schema.Types.ObjectId,
 		ref: 'post',
