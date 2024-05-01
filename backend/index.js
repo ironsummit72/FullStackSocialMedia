@@ -24,9 +24,9 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(express.static('uploads'))
+app.use('/auth', authRouter)
 app.use(getCurrentUser)
 
-app.use('/auth', authRouter)
 app.use('/create', userAuth, createRouter)
 app.use('/set',userAuth,setRouter)
 
