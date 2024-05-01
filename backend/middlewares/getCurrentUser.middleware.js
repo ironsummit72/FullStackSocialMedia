@@ -2,12 +2,12 @@ import jwt from 'jsonwebtoken'
 import EnvConf from '../conf/environmentVariables.js'
 import ApiResponse from '../utils/ApiResponse.util.js'
 const getCurrentUser = (req, res, next) => {
-	const token = req.cookies.sessionId
+	const token = req?.cookies?.sessionId
 	if (token) {
 		jwt.verify(token, EnvConf.JWT_SECRET, (err, decodedToken) => {
 			if (err) throw Error(err)
 			console.log(decodedToken)
-			req.currentUser = decodedToken
+			req.user = decodedToken
 			next()
 		})
 	}
