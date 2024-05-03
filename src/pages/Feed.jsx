@@ -1,10 +1,16 @@
-import { useSelector } from "react-redux"
-function Feed() {
-  const state=useSelector((state)=>state.userData)
-  console.log('state',state);
-  return (
-    <div>{state?.username}</div>
-  )
+import SideNavBar from "@/components/SideNavBar";
+import Container from "@/components/Container";
+
+
+
+function Feed() {  
+return <div className="bg-red-500 w-full h-auto min-h-screen flex">
+<SideNavBar/>
+<Container>
+
+</Container>
+  </div>;
+
 }
 
-export default Feed
+export default Feed;
