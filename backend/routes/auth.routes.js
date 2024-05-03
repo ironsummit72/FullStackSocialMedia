@@ -12,13 +12,21 @@ router.post('/login', async (req, res) => {
 		const [hash, salt] = userData.password.split('.')
 		const isPasswordCorrect = verifyPassword(password, hash, salt)
 		if (isPasswordCorrect) {
-			res.cookie('sessionId', createToken({id: userData._id, username: userData.username,fullName:`${userData.firstname} ${userData.lastname}`}), {httpOnly: true})
-			res.status(200).json(new ApiResponse('success',200,userData.username,'login success','/'))
+			res.cookie(
+				'sessionId',
+				createToken({
+					id: userData._id,
+					username: userData.username,
+					fullName: `${userData.firstname} ${userData.lastname}`,
+				}),
+				{httpOnly: true},
+			)
+			res.status(200).json(new ApiResponse('success', 200, userData.username, 'login success', '/'))
 		} else {
 			res.status(400).json(new ApiResponse('error', 400, null, 'incorrect password', null))
 		}
 	} else {
-		res.status(401).json(new ApiResponse('error', 401,null, 'sorry user not found please register first', '/register'))
+		res.status(401).json(new ApiResponse('error', 401, null, 'sorry user not found please register first', '/register'))
 	}
 })
 router.post('/register', async (req, res) => {
@@ -55,5 +63,9 @@ router.post('/register', async (req, res) => {
 			res.status(200).json(new ApiResponse('success', 200, userData, 'user registered successfully', '/login'))
 		}
 	}
+})
+router.delete('/logout', (req, res) => {
+	res.clearCookie('sessionId')
+	res.status(200).json(new ApiResponse('success', 200, null, 'user logged out successfully', '/login'))
 })
 export default router
