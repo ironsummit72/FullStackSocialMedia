@@ -3,13 +3,14 @@ import { Link,NavLink } from 'react-router-dom'
 import { Input } from '@/shadcomponents/ui/input'
 import {Home, Users,Video,Bell,Menu,MessageSquare} from 'lucide-react'
 import ProfileDropDown from './Dropdown/ProfileDropDown'
+import Logo from './Logo'
 function Navbar() {
   return (
     <header className="sticky top-0 z-20">
       <nav className="nav w-screen h-16 shadow-lg   bg-white">
         <div className="w-[100%] h-full flex items-center gap-10">
           <Link to="/" className="companylogo h-full w-16 ">
-            <img className="w-full h-full" src={''} alt="" />
+          <Logo className=""/>
           </Link>
           <Input
             autoComplete={'off'}
