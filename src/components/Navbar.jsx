@@ -47,9 +47,9 @@ function Navbar() {
             <div className="notification h-10 w-10 bg-slate-300 rounded-full flex justify-center items-center">
               <MessageSquare fill={'true'} size={25} />
             </div>
-            <div className="notification h-10 w-10 bg-slate-300 rounded-full flex justify-center items-center">
+            <div className="notification h-14 w-14 bg-slate-300 rounded-full flex justify-center items-center">
              <ProfileDropDown className='w-24 h-24'>
-             <DisplayPicture className="w-full h-full rounded-full "/>
+             <DisplayPicture className="w-14 h-14 rounded-full "/>
              </ProfileDropDown>
             </div>
           </div>
