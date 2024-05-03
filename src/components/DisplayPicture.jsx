@@ -19,7 +19,6 @@ function DisplayPicture({ username, className }) {
         });
     }
   }, [username]);
-  console.log(displaypicture);
   return (
     <div>
       <img className={className} src={displaypicture} alt="" />
