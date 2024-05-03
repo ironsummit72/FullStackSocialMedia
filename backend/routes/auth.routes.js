@@ -12,7 +12,7 @@ router.post('/login', async (req, res) => {
 		const [hash, salt] = userData.password.split('.')
 		const isPasswordCorrect = verifyPassword(password, hash, salt)
 		if (isPasswordCorrect) {
-			res.cookie('sessionId', createToken({id: userData._id, username: userData.username}), {httpOnly: true})
+			res.cookie('sessionId', createToken({id: userData._id, username: userData.username,fullName:`${userData.firstname} ${userData.lastname}`}), {httpOnly: true})
 			res.status(200).json(new ApiResponse('success',200,userData.username,'login success','/'))
 		} else {
 			res.status(400).json(new ApiResponse('error', 400, null, 'incorrect password', null))
