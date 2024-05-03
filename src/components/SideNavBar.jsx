@@ -15,7 +15,7 @@ function SideNavBar() {
               className="w-full flex gap-5 p-6 text-lg font-semibold hover:bg-gray-300"
               to="/ownprofile">
               <DisplayPicture className={`w-10 h-10 rounded-full`} />
-              {state?.username}
+              {state?.fullName}
             </Link>
           </Button>
         </li>
