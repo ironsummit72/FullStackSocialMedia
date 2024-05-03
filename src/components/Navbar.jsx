@@ -5,8 +5,8 @@ import {Home, Users,Video,Bell,Menu,MessageSquare} from 'lucide-react'
 import ProfileDropDown from './Dropdown/ProfileDropDown'
 function Navbar() {
   return (
-    <header>
-      <nav className="nav w-screen h-16 shadow-lg fixed z-20 bg-white">
+    <header className="sticky top-0 z-20">
+      <nav className="nav w-screen h-16 shadow-lg   bg-white">
         <div className="w-[100%] h-full flex items-center gap-10">
           <Link to="/" className="companylogo h-full w-16 ">
             <img className="w-full h-full" src={''} alt="" />
