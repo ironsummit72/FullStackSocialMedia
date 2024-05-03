@@ -3,7 +3,7 @@ import { axiosInstanceWithCredentials } from "./axios/axiosInstance";
 import { useDispatch } from "react-redux";
 import { authenticateUser, logout } from "./redux/AuthSlice/AuthSlice";
 import { Outlet } from "react-router-dom";
-
+import Navbar from "@/components/Navbar";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -11,8 +11,8 @@ function App() {
       .get("/getcurrentuser")
       .then((res) => {
         console.log(res.data.data);
-        const dataUser=res.data.data
-        if(dataUser){
+        const dataUser = res.data.data;
+        if (dataUser) {
           dispatch(authenticateUser(dataUser));
         }
       })
@@ -21,7 +21,13 @@ function App() {
         dispatch(logout());
       });
   }, []);
-  return <Outlet/>;
+  return (
+  <div className="flex-col">
+  <Navbar/>
+  <Outlet />
+  </div>
+    
+  );
 }
 
 export default App;
