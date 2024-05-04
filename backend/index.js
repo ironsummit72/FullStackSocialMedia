@@ -8,10 +8,9 @@ import userAuth from './middlewares/isAuthenticated.middleware.js'
 import credRouter from './routes/cred.routes.js'
 import setRouter from './routes/set.routes.js'
 import resourceRouter from './routes/resources.routes.js'
-
+import checkRouter from './routes/check.routes.js'
 import cors from 'cors'
 import getCurrentUser from './middlewares/getCurrentUser.middleware.js'
-
 const app = express()
 const port = EnvConf.APP_PORT
 
@@ -33,6 +32,7 @@ app.use(express.static('uploads'))
 app.use('/create', userAuth, createRouter)
 app.use('/set',userAuth,setRouter)
  app.use('/resource',resourceRouter)
+ app.use('/check',checkRouter)
 
 
 app.use('/getcurrentuser',credRouter)
