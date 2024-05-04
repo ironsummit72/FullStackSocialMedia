@@ -12,11 +12,11 @@ const userSchema = new Schema({
 	password: {type: String, require: true},
 	displaypicture: {
 		type: String,
-		default: '',
+		default: null,
 	},
 	coverpicture: {
 		type: String,
-		default: '',
+		default: null,
 	},
 	posts: {
 		type: Schema.Types.ObjectId,
