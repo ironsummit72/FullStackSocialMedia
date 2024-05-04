@@ -34,20 +34,17 @@ function ProfileDropDown({ children }) {
         <DropdownMenuItem>
           <User className="mr-2 h-4 w-4" />
           <span>Profile</span>
-          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+        
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Settings className="mr-2 h-4 w-4" />
           <span>Settings</span>
-          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+         
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={onLogoutHandler}>
           <LogOut className="mr-2 h-4 w-4 text-red-500" />
           <span className="text-red-500">Log out</span>
-          <DropdownMenuShortcut className="text-red-500">
-            ⇧⌘Q
-          </DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
