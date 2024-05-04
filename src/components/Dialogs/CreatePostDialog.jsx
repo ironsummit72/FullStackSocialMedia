@@ -8,8 +8,6 @@ import {
   import { useSelector } from 'react-redux';
   import { useForm,Controller } from 'react-hook-form';
   import { useContext, useState } from 'react';
-
-//   import { useNavigate } from 'react-router-dom';
   import {
     Select,
     SelectContent,
@@ -28,13 +26,10 @@ import { axiosInstanceWithCredentials } from '@/axios/axiosInstance';
 import { toast } from 'sonner';
   
   function CreatePostDialog() {
-    // const navigate=useNavigate();
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [dragActive, setDragActive] = useState(false);
     const userData = useSelector((state) => state.userData);
-    
     const {createPostDialog,setCreatePostDialog}=useContext(dialogContext);
-   
     const handleDrag = (event) => {
       event.preventDefault();
       setDragActive(event.type === 'dragover' || event.type === 'dragenter');
@@ -62,7 +57,7 @@ import { toast } from 'sonner';
    console.log(caption,postvisibility);
    if(selectedFiles.length!==0)
    {
-   // console.log(selectedFiles); // this are the files 
+
     const formData = new FormData();
     formData.append('caption',caption);
     formData.append('postvisibility',postvisibility);
@@ -81,7 +76,7 @@ import { toast } from 'sonner';
     }).catch((error) => {
         console.log(error);
     })
-    console.log("posted");
+   
    }
    
     } 
