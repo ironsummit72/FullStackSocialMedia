@@ -30,7 +30,7 @@ router.get('/displaypicture/:username', async (req, res) => {
 		res.status(400).json(new ApiResponse('error', 400, null, 'please provide username', null))
 	}
 })
-router.get('/coverpicuture', async (req, res) => {
+router.get('/coverpicture', async (req, res) => {
 	const {username} = req.user
 	if (username) {
 		const userData = await userModel.findOne({username})
@@ -42,7 +42,7 @@ router.get('/coverpicuture', async (req, res) => {
 		res.status(400).json(new ApiResponse('error', 400, null, 'usernotfound', null))
 	}
 })
-router.get('/coverpicuture/:username', async (req, res) => {
+router.get('/coverpicture/:username', async (req, res) => {
 	const {username} = req.params
 	if (username) {
 		const userData = await userModel.findOne({username})
