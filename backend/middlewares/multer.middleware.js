@@ -27,6 +27,9 @@ const storage = multer.diskStorage({
 		} else if (file.fieldname === 'displaypicture') {
 			const uniqueSuffix = req.user.username
 			cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname))
+		}else{
+			const uniqueSuffix = Date.now()+'_'+req.user.username
+			cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname))
 		}
 	},
 })
