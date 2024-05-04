@@ -13,6 +13,11 @@ const postSchema = new Schema(
 			type: Array,
 			default: [],
 		},
+		postvisibility: {
+			type: String,
+			enum:['PUBLIC','ONLYME','FOLLOWERS'],
+			default:'PUBLIC'
+		}
 	},
 	{timestamps: true},
 )
