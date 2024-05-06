@@ -9,6 +9,7 @@ import credRouter from './routes/cred.routes.js'
 import setRouter from './routes/set.routes.js'
 import resourceRouter from './routes/resources.routes.js'
 import checkRouter from './routes/check.routes.js'
+import searchRouter from './routes/search.routes.js'
 import cors from 'cors'
 import getCurrentUser from './middlewares/getCurrentUser.middleware.js'
 const app = express()
@@ -33,6 +34,7 @@ app.use('/create', userAuth, createRouter)
 app.use('/set',userAuth,setRouter)
  app.use('/resource',resourceRouter)
  app.use('/check',checkRouter)
+ app.use('/search',searchRouter)
 
 
 app.use('/getcurrentuser',credRouter)
