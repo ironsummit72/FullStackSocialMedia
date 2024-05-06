@@ -1,25 +1,18 @@
 import { Input } from "@/shadcomponents/ui/input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DisplayPicture from "./DisplayPicture";
 import { Link } from "react-router-dom";
 import useDebounce from "@/hooks/useDebouncing";
-import { axiosInstanceWithCredentials } from "@/axios/axiosInstance";
-
+import { useQuery } from "@tanstack/react-query";
+import { searchUserQuery } from "@/api/QueryFunctions";
 function SearchBar() {
   const [searchValue, setSearchValue] = useState("");
   const debounce = useDebounce(searchValue, 700);
-  const [searchData, setSearchData] = useState([]);
-  useEffect(() => {
-    axiosInstanceWithCredentials
-      .get(`/search/users?search=${debounce}`)
-      .then((response) => {
-        setSearchData(response.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [debounce]);
-
+  const { data,isSuccess } = useQuery({
+    queryKey: ["search", debounce],
+    queryFn: ({ queryKey }) => searchUserQuery(queryKey[1]),
+  });
+console.log(data,'data');
   return (
     <div className="">
       <div className="searchContainer mb-2">
@@ -31,9 +24,9 @@ function SearchBar() {
             setSearchValue(e.target.value);
           }}
         />
-        {searchValue && (
+        {isSuccess && (
           <div className="suggessioncard bg-white  w-72 min-h-20 max-h-96 shadow-md rounded-b-md overflow-y-auto absolute top-14 ">
-            {searchData?.map((data) => {
+            {data?.map((data) => {
               return (
                 <Link
                   key={data._id}
