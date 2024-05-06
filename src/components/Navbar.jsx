@@ -1,9 +1,9 @@
 import DisplayPicture from '@/components/DisplayPicture'
 import { Link,NavLink } from 'react-router-dom'
-import { Input } from '@/shadcomponents/ui/input'
 import {Home, Users,Video,Bell,Menu,MessageSquare} from 'lucide-react'
 import ProfileDropDown from './Dropdown/ProfileDropDown'
 import Logo from './Logo'
+import SearchBar from './SearchBar'
 function Navbar() {
   return (
     <header className="sticky top-0 z-20">
@@ -12,14 +12,7 @@ function Navbar() {
           <Link to="/" className="companylogo h-full w-16 ">
           <Logo className=""/>
           </Link>
-          <Input
-            autoComplete={'off'}
-            className="w-80 rounded-full bg-gray-100 "
-            placeholder="Search Users"
-            type="search"
-            name="search"
-            id=""
-          />
+          <SearchBar/>
           <div className="navlinks h-full w-[40%] flex items-center justify-center gap-16">
             <NavLink to="/" className={`hover:bg-gray-100 p-3`}>
               {({ isActive }) => (
