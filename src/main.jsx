@@ -13,12 +13,15 @@ import Feed from "./pages/Feed.jsx";
 import SetProfile from "./pages/SetProfile.jsx";
 import SetDisplayPicture from "./pages/SetDisplayPicture.jsx";
 import SetCoverPicture from "./pages/SetCoverPicture.jsx";
+import { QueryClientProvider,QueryClient } from "@tanstack/react-query";
+const client=new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <>
-        <App />
+      <QueryClientProvider client={client}>  <App />
+      </QueryClientProvider>
       </>
     ),
     children: [
