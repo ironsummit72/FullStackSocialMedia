@@ -12,7 +12,6 @@ function SearchBar() {
     queryKey: ["search", debounce],
     queryFn: ({ queryKey }) => searchUserQuery(queryKey[1]),
   });
-console.log(data,'data');
   return (
     <div className="">
       <div className="searchContainer mb-2">
