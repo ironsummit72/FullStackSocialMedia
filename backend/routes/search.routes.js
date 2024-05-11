@@ -31,5 +31,25 @@ router.get('/users', async (req, res) => {
 		res.status(200).json(new ApiResponse('success', 200, data, 'search results', null))
 	}
 })
+router.get('/mention', async (req, res) => {
+	const {search} = req.query
+	if (search) {
+		const regexsearch = new RegExp(search, 'i')
+		const userData = await userModel.aggregate([
+			{
+				$match:
+					/**
+					 * query: The query in MQL.
+					 */
+					{
+						username: regexsearch,
+					},
+			},
+		])
+		if (userData) {
+			res.status(200).json(new ApiResponse('success', 200, userData, 'mention results', null))
+		}
+	}
+})
 
 export default router
