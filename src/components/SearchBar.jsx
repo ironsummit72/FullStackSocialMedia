@@ -29,7 +29,7 @@ function SearchBar() {
               return (
                 <Link
                   key={data._id}
-                  to={`/profile/${data.username}`}
+                  to={`/${data.username}`}
                   className="searchSuggestion flex items-center gap-3 mb-4 mt-4 hover:bg-gray-200/50"
                 >
                   <DisplayPicture
