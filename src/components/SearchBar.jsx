@@ -16,7 +16,7 @@ function SearchBar() {
     <div className="">
       <div className="searchContainer mb-2">
         <Input
-          className="w-72 relative top-1"
+          className="w-72 relative top-1 rounded-full bg-gray-300/50"
           placeholder="Search Users"
           type="search"
           onChange={(e) => {
