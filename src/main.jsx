@@ -14,14 +14,24 @@ import SetProfile from "./pages/SetProfile.jsx";
 import SetDisplayPicture from "./pages/SetDisplayPicture.jsx";
 import SetCoverPicture from "./pages/SetCoverPicture.jsx";
 import { QueryClientProvider,QueryClient } from "@tanstack/react-query";
+import UserProfile from "./pages/UserProfile.jsx";
+import  Video  from './pages/Video.jsx'
+import Posts from "./pages/Posts.jsx";
+import Reels from "./pages/Reels.jsx";
+import About from "./pages/About.jsx";
+import Photos from "./pages/Photos.jsx";
+import Friends from "./pages/Friends.jsx";
+import Videos from "./pages/Videos.jsx";
 const client=new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <>
-      <QueryClientProvider client={client}>  <App />
-      </QueryClientProvider>
+        <QueryClientProvider client={client}>
+          {" "}
+          <App />
+        </QueryClientProvider>
       </>
     ),
     children: [
@@ -33,6 +43,49 @@ const router = createBrowserRouter([
           </AuthRouter>
         ),
       },
+      {
+        path: "/:username",
+        element: (
+          <AuthRouter>
+            <UserProfile />
+          </AuthRouter>
+        ),
+        children:[
+          {
+          path:'/:username/',
+          element: (<Posts/>)
+        },
+          {
+          path:'/:username/about',
+          element: (<About/>)
+        },
+          {
+          path:'/:username/reels',
+          element: (<Reels/>)
+        },
+          {
+          path:'/:username/photos',
+          element: (<Photos/>)
+        },
+          {
+          path:'/:username/videos',
+          element: (<Videos/>)
+        },
+          {
+          path:'/:username/friends',
+          element: (<Friends/>)
+        },
+      
+      ]
+      },
+      {
+        path:'/watch/:vid',
+        element:<Video/>
+      },
+      {
+        path:'/watch',
+        element:<Video/>
+      }
     ],
   },
   {
