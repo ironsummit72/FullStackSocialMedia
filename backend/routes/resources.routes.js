@@ -34,10 +34,13 @@ router.get('/coverpicture', async (req, res) => {
 	const {username} = req.user
 	if (username) {
 		const userData = await userModel.findOne({username})
-		const readableStream = fs.createReadStream(`./uploads/coverpicture/${userData.coverpicture}`)
-		readableStream.on('data', (chunk) => res.write(chunk))
-		readableStream.on('end', () => res.end())
-		readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
+		if(userData)
+			{
+				const readableStream = fs.createReadStream(`./uploads/coverpicture/${userData.coverpicture}`)
+				readableStream.on('data', (chunk) => res.write(chunk))
+				readableStream.on('end', () => res.end())
+				readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
+			}
 	} else {
 		res.status(400).json(new ApiResponse('error', 400, null, 'usernotfound', null))
 	}
@@ -46,10 +49,12 @@ router.get('/coverpicture/:username', async (req, res) => {
 	const {username} = req.params
 	if (username) {
 		const userData = await userModel.findOne({username})
-		const readableStream = fs.createReadStream(`./uploads/coverpicture/${userData.coverpicture}`)
-		readableStream.on('data', (chunk) => res.write(chunk))
-		readableStream.on('end', () => res.end())
-		readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
+		if(userData) {
+			const readableStream = fs.createReadStream(`./uploads/coverpicture/${userData.coverpicture}`)
+			readableStream.on('data', (chunk) => res.write(chunk))
+			readableStream.on('end', () => res.end())
+			readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
+		}
 	} else {
 		res.status(400).json(new ApiResponse('error', 400, null, 'usernotfound', null))
 	}
