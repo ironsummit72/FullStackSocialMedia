@@ -21,7 +21,7 @@ function CoverPicture({className,username}) {
       }, [username]);
   return (
     <div className="w-full h-[70%] ">
-      <AspectRatio className={`flex justify-center h-full mt-20 ${className}`} ratio={16 / 9}>
+      <AspectRatio className={`flex justify-center h-full  ${className}`} ratio={16 / 9}>
         <video poster={CoverPicture} alt="Image" className="rounded-md object-cover w-[80%] h-[65%] object-[top_right]" />
       </AspectRatio>
     </div>

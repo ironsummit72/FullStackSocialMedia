@@ -16,7 +16,7 @@ function SearchBar() {
     <div className="">
       <div className="searchContainer mb-2">
         <Input
-          className="w-72 relative top-1"
+          className="w-72 relative top-1 rounded-full bg-gray-300/50"
           placeholder="Search Users"
           type="search"
           onChange={(e) => {
@@ -29,7 +29,7 @@ function SearchBar() {
               return (
                 <Link
                   key={data._id}
-                  to={`/profile/${data.username}`}
+                  to={`/${data.username}`}
                   className="searchSuggestion flex items-center gap-3 mb-4 mt-4 hover:bg-gray-200/50"
                 >
                   <DisplayPicture
