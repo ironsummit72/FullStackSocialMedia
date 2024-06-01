@@ -6,13 +6,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuShortcut,
 } from "@/shadcomponents/ui/dropdown-menu";
 import { User, Settings, LogOut } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-
+import {Link} from "react-router-dom"
 
 function ProfileDropDown({ children }) {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ function ProfileDropDown({ children }) {
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Settings className="mr-2 h-4 w-4" />
-          <span>Settings</span>
+          <Link to={'/settings'}>Settings</Link>
          
         </DropdownMenuItem>
         <DropdownMenuSeparator />
