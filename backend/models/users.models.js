@@ -22,6 +22,11 @@ const userSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'post',
 	},
+	profession: {type: String, default: ''},
+	studiedAt: {type: String, default: ''},
+	wentTo: {type: String, default: ''},
+	livesIn: {type: String, default: ''},
+	RelationshipStatus: {type: String, enum: ['SINGLE', 'INRELATIONSHIP', 'MARRIED'], default: 'SINGLE'},
 })
 userSchema.pre('save', function (next) {
 	const {hash, salt} = generateHash(this.password)
