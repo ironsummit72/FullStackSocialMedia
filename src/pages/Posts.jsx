@@ -7,7 +7,7 @@ function Posts() {
   const {username}=useParams()
   return (
     <div className="bg-gray-100 mt-10 ">
-      <IntroCard/>
+      <IntroCard username={username} />
       <PhotoCard username={username}/>
     </div>
   )
