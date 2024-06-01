@@ -25,14 +25,25 @@ import {
   SelectValue,
 } from "@/shadcomponents/ui/select";
 import { useForm, Controller } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { setUserDetails } from "@/api/QueryFunctions";
+import { useMutation,useQuery,useQueryClient } from "@tanstack/react-query";
+import { getUserIntroDetails, setUserDetails } from "@/api/QueryFunctions";
 import { useToast } from "@/shadcomponents/ui/use-toast";
+import { useSelector } from "react-redux";
 export default function Component() {
   const { toast } = useToast();
+  const auth = useSelector((state) => state.userData);
+  const queryClient = useQueryClient()
+  const { data  } = useQuery({
+    queryKey: ["userintrodetails", auth?.username],
+    queryFn: ({ queryKey }) => getUserIntroDetails(queryKey[1]),
+  });
   const form = useForm({
     defaultValues:{
-        // TODO:get the default values from the api..
+        profession:data?.profession,
+        livesin:data?.livesIn,
+        wentto:data?.wentTo,
+        studiedat:data?.studiedAt,
+        relationshipstatus:data?.RelationshipStatus
     }
   });
   const mutation = useMutation({
@@ -42,7 +53,7 @@ export default function Component() {
         title: `Updated Successfully `,
         description: `${data?.data?.message} `,
       });
-      console.log("success");
+      queryClient.invalidateQueries({ queryKey: ['userintrodetails'] })
     }
   })
   function submitHandler(data) {
