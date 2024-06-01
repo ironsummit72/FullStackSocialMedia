@@ -17,9 +17,9 @@ function UserProfile() {
           <CoverPicture username={data?.username} />
           <DisplayPicture
             username={data?.username}
-            className="w-64 h-64 rounded-full relative left-64 border-4 border-white"
+            className="w-[15em] h-[15em] rounded-full relative left-[10em] bottom-[2em] border-4 border-white"
           />
-          <div className="info relative left-[25%] bottom-[12%] w-fit flex flex-col gap-3 ">
+          <div className="info relative left-[26em] bottom-[10em] w-fit flex flex-col gap-3 ">
             <div className="headings flex items-center gap-4">
               <h1 className="name text-2xl font-bold">
                 {data?.firstname} {data?.lastname}
