@@ -19,4 +19,8 @@ export function getUserDetails(username){
     return fetchData
 
 }
+export function setUserDetails(postData){
+let postDataResponse=axiosInstanceWithCredentials.post('/set/profileintro',postData);
+return postDataResponse;
+}
 

@@ -13,16 +13,22 @@ import Feed from "./pages/Feed.jsx";
 import SetProfile from "./pages/SetProfile.jsx";
 import SetDisplayPicture from "./pages/SetDisplayPicture.jsx";
 import SetCoverPicture from "./pages/SetCoverPicture.jsx";
-import { QueryClientProvider,QueryClient } from "@tanstack/react-query";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import UserProfile from "./pages/UserProfile.jsx";
-import  Video  from './pages/Video.jsx'
+import Video from "./pages/Video.jsx";
 import Posts from "./pages/Posts.jsx";
 import Reels from "./pages/Reels.jsx";
 import About from "./pages/About.jsx";
 import Photos from "./pages/Photos.jsx";
 import Friends from "./pages/Friends.jsx";
 import Videos from "./pages/Videos.jsx";
-const client=new QueryClient();
+import Settings from "./pages/Settings.jsx";
+import General from "./pages/Settings/General.jsx";
+import ProfileIntro from "./pages/Settings/ProfileIntro.jsx";
+import Profile from "./pages/Settings/Profile.jsx";
+
+
+const client = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
@@ -44,48 +50,65 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/settings",
+        element: (<Settings />),
+        children:[
+          {
+           path:'general',
+           element:<General/>
+          },
+          {
+           path:'profile',
+           element:<Profile/>
+          },
+          {
+           path:'profileintro',
+           element:<ProfileIntro/>
+          },
+        ]
+      },
+      {
         path: "/:username",
         element: (
           <AuthRouter>
             <UserProfile />
           </AuthRouter>
         ),
-        children:[
+        children: [
           {
-          path:'/:username/',
-          element: (<Posts/>)
-        },
+            path: "/:username/",
+            element: <Posts />,
+          },
           {
-          path:'/:username/about',
-          element: (<About/>)
-        },
+            path: "/:username/about",
+            element: <About />,
+          },
           {
-          path:'/:username/reels',
-          element: (<Reels/>)
-        },
+            path: "/:username/reels",
+            element: <Reels />,
+          },
           {
-          path:'/:username/photos',
-          element: (<Photos/>)
-        },
+            path: "/:username/photos",
+            element: <Photos />,
+          },
           {
-          path:'/:username/videos',
-          element: (<Videos/>)
-        },
+            path: "/:username/videos",
+            element: <Videos />,
+          },
           {
-          path:'/:username/friends',
-          element: (<Friends/>)
-        },
-      
-      ]
+            path: "/:username/friends",
+            element: <Friends />,
+          },
+        ],
       },
       {
-        path:'/watch/:vid',
-        element:<Video/>
+        path: "/watch/:vid",
+        element: <Video />,
       },
       {
-        path:'/watch',
-        element:<Video/>
-      }
+        path: "/watch",
+        element: <Video />,
+      },
     ],
   },
   {
@@ -114,6 +137,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+ 
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
