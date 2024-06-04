@@ -1,15 +1,42 @@
-import { getUserDetails } from "@/api/QueryFunctions";
+import { getIsFollowing, getUserDetails, postFollowUnfollow } from "@/api/QueryFunctions";
 import CoverPicture from "@/components/CoverPicture";
 import DisplayPicture from "@/components/DisplayPicture";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery,useQueryClient} from "@tanstack/react-query";
 import { useParams, Link, NavLink, Outlet } from "react-router-dom";
+import { Button } from "@/shadcomponents/ui/button";
+import { Check, MessageSquare, Pencil, UserPlus } from "lucide-react";
+import { useSelector } from "react-redux";
 
 function UserProfile() {
+  const loggedInuser=useSelector((state)=>state.userData?.username)
+  const queryClient = useQueryClient()
   const { username } = useParams();
   const { data } = useQuery({
     queryKey: ["userprofile", username],
     queryFn: ({ queryKey }) => getUserDetails(queryKey[1]),
   });
+   const queryUsername=data?.username;
+   const {data:isfollowing,refetch:refetchIsFollowing}=useQuery({
+    queryKey:['isfollowing',username],
+    queryFn:()=>getIsFollowing(username),
+    enabled:!! queryUsername,
+    refetchOnWindowFocus:true
+  })
+const mutateFollowUnfollow=useMutation({
+  mutationFn:(username)=>postFollowUnfollow(username),
+  mutationKey:['followunfollow']
+});
+const onHandleUnFollow=()=>{
+mutateFollowUnfollow.mutate(queryUsername)
+queryClient.invalidateQueries({queryKey:['isfollowing']})
+refetchIsFollowing()
+}
+const onHandleFollow=()=>{
+  mutateFollowUnfollow.mutate(queryUsername)
+  queryClient.invalidateQueries({queryKey:['isfollowing']})
+  refetchIsFollowing()
+}
+
   return (
     <>
       <div className="w-screen h-screen ">
@@ -34,9 +61,19 @@ function UserProfile() {
               <Link to={`/${data?.username}/followers`}>Followers</Link>
               <Link to={`/${data?.username}/following`}>Following</Link>
             </div>
+            <div className="followers-container flex w-[150%] justify-between">
+              <div className="flex w-fit min-w-64">
+
+              {/* TODO: add avaters of 8 followers  */}
+              </div>
+              <div className="profilebtn flex gap-10">
+                <Button variant='secondary' className={' gap-4  '}><MessageSquare />Message</Button>
+                {loggedInuser!==username? isfollowing?.data.data==true ? <Button onClick={onHandleUnFollow} className='px-10 gap-4'><Check/> Following</Button>: <Button onClick={onHandleFollow} className='px-10 gap-4'><UserPlus/> Follow</Button>:<Button asChild><Link className="gap-2" to='/set/dp'><Pencil /> Edit Avatar</Link></Button>}
+              </div>
+              </div>
           </div>
         </div>
-        <nav className="bg-white w-full h-20 flex items-center relative shadow-2xl ">
+        <nav className="bg-white w-full h-20 flex items-center relative shadow-lg ">
           <div className="navitems flex gap-x-20 px-72">
             <NavLink   to={`/${data?.username}/`}>
               <span className="font-bold text-gray-600">Posts</span>
