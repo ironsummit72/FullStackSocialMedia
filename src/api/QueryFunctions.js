@@ -25,4 +25,11 @@ export function getUserIntroDetails(username){
     let fetchData= axiosInstanceWithCredentials.get(`/profile/introdetails?username=${username}`).then((res)=>res.data.data)
     return fetchData;
 }
-
+export function getIsFollowing(username){
+    let fetchData = axiosInstanceWithCredentials.get(`/check/isfollowing/${username}`)
+    return fetchData;
+}
+export function postFollowUnfollow(username){
+    let fetchData = axiosInstanceWithCredentials.post(`/users/${username}/follow`);
+    return fetchData;
+}
