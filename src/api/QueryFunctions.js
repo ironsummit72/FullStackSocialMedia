@@ -33,3 +33,7 @@ export function postFollowUnfollow(username){
     let fetchData = axiosInstanceWithCredentials.post(`/users/${username}/follow`);
     return fetchData;
 }
+export function getPhotosIntroCard(username){
+    let fetchData = axiosInstanceWithCredentials.get(`/resource/photos/${username}?limit=9`)
+    return fetchData;
+}
