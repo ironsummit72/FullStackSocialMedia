@@ -12,6 +12,8 @@ import checkRouter from './routes/check.routes.js'
 import searchRouter from './routes/search.routes.js'
 import profileRouter from './routes/profile.routes.js'
 import usersRouter from './routes/users.routes.js'
+import fileRouter from './routes/files.routes.js'
+
 import cors from 'cors'
 import getCurrentUser from './middlewares/getCurrentUser.middleware.js'
 const app = express()
@@ -39,6 +41,7 @@ app.use('/set',userAuth,setRouter)
  app.use('/search',searchRouter)
  app.use('/profile',profileRouter)
  app.use('/users',usersRouter)
+ app.use('/files',fileRouter)
 
 app.use('/getcurrentuser',credRouter)
 

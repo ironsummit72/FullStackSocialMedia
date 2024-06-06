@@ -2,6 +2,7 @@ import ApiResponse from '../utils/ApiResponse.util.js'
 import userModel from '../models/users.models.js'
 import Router from 'express'
 import fs from 'fs'
+import postModel from '../models/post.models.js'
 const router = Router()
 
 router.get('/displaypicture', async (req, res) => {
@@ -34,13 +35,12 @@ router.get('/coverpicture', async (req, res) => {
 	const {username} = req.user
 	if (username) {
 		const userData = await userModel.findOne({username})
-		if(userData)
-			{
-				const readableStream = fs.createReadStream(`./uploads/coverpicture/${userData.coverpicture}`)
-				readableStream.on('data', (chunk) => res.write(chunk))
-				readableStream.on('end', () => res.end())
-				readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
-			}
+		if (userData) {
+			const readableStream = fs.createReadStream(`./uploads/coverpicture/${userData.coverpicture}`)
+			readableStream.on('data', (chunk) => res.write(chunk))
+			readableStream.on('end', () => res.end())
+			readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
+		}
 	} else {
 		res.status(400).json(new ApiResponse('error', 400, null, 'usernotfound', null))
 	}
@@ -49,7 +49,7 @@ router.get('/coverpicture/:username', async (req, res) => {
 	const {username} = req.params
 	if (username) {
 		const userData = await userModel.findOne({username})
-		if(userData) {
+		if (userData) {
 			const readableStream = fs.createReadStream(`./uploads/coverpicture/${userData.coverpicture}`)
 			readableStream.on('data', (chunk) => res.write(chunk))
 			readableStream.on('end', () => res.end())
@@ -57,6 +57,101 @@ router.get('/coverpicture/:username', async (req, res) => {
 		}
 	} else {
 		res.status(400).json(new ApiResponse('error', 400, null, 'usernotfound', null))
+	}
+})
+router.get('/photos/:username', async (req, res) => {
+	const {username} = req.params
+	if (username) {
+		const userData = await userModel.findOne({username: username})
+		if (userData) {
+			if(req.query.limit) {
+				const postData = await postModel.aggregate([
+					{
+						$unwind: {
+							path: '$media',
+						},
+					},
+					{
+						$match: {
+							'media.mimetype': {
+								$in: ['image/jpg', 'image/jpeg', 'image/jpg', 'image/webp'],
+							},
+						},
+					},
+					{
+						$match:{
+							user:userData._id
+						}
+					},
+					{
+    $sort:
+      /**
+       * Provide any number of field/order pairs.
+       */
+      {
+        createdAt: -1
+      }
+  },
+					{$limit:parseInt(req.query?.limit)}
+				])
+				if (postData) {			
+					res.status(200).json(new ApiResponse('success', '200', postData, `photos  of ${username} `, null))
+				} else {
+					res.status(200).json(new ApiResponse('success', '200', postData, `photos not available of ${username} `, null))
+				}
+			}else{
+				const postData = await postModel.aggregate([
+					{
+						$unwind: {
+							path: '$media',
+						},
+					},
+					{
+						$match: {
+							'media.mimetype': {
+								$in: ['image/jpg', 'image/jpeg', 'image/jpg', 'image/webp'],
+							},
+						},
+					},
+					
+				])
+				if (postData) {
+					res.status(200).json(new ApiResponse('success', '200', postData, `${username} photos`, null))
+				} else {
+					res.status(200).json(new ApiResponse('success', '200', postData, `photos not available of ${username} `, null))
+				}
+			}
+			
+			
+		}
+
+	}
+})
+router.get('/videos/:username', async (req, res) => {
+	const {username} = req.params
+	if (username) {
+		const userData = await userModel.findOne({username: username})
+		if (userData) {
+			const postData = await postModel.aggregate([
+				{
+					$unwind: {
+						path: '$media',
+					},
+				},
+				{
+					$match: {
+						'media.mimetype': {
+							$in: ['video/mp4', 'video/webm', 'video/ogg', 'video/*'],
+						},
+					},
+				},
+			])
+			if (postData) {
+				res.status(200).json(new ApiResponse('success', '200', postData, `${username} photos`, null))
+			} else {
+				res.status(200).json(new ApiResponse('success', '200', postData, `videos not available of ${username} `, null))
+			}
+		}
 	}
 })
 
