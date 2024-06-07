@@ -37,3 +37,11 @@ export function getPhotosIntroCard(username){
     let fetchData = axiosInstanceWithCredentials.get(`/resource/photos/${username}?limit=9`)
     return fetchData;
 }
+export function getFollowing(username){
+    let fetchData = axiosInstanceWithCredentials.get(`/profile/following/${username}`)
+    return fetchData;
+}
+export function getFollowers(username){
+ let fetchData=axiosInstanceWithCredentials.get(`/profile/followers/${username}`)
+ return fetchData;
+}

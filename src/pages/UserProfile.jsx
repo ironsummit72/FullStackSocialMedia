@@ -1,4 +1,4 @@
-import { getIsFollowing, getUserDetails, postFollowUnfollow } from "@/api/QueryFunctions";
+import { getIsFollowing, getUserDetails, postFollowUnfollow,getFollowers, getFollowing } from "@/api/QueryFunctions";
 import CoverPicture from "@/components/CoverPicture";
 import DisplayPicture from "@/components/DisplayPicture";
 import { useMutation, useQuery,useQueryClient} from "@tanstack/react-query";
@@ -18,9 +18,19 @@ function UserProfile() {
    const queryUsername=data?.username;
    const {data:isfollowing,refetch:refetchIsFollowing}=useQuery({
     queryKey:['isfollowing',username],
-    queryFn:()=>getIsFollowing(username),
+    queryFn:({queryKey})=>getIsFollowing(queryKey[1]),
     enabled:!! queryUsername,
     refetchOnWindowFocus:true
+  })
+  const {data:followers}=useQuery({
+    queryKey:['followers',queryUsername],
+    queryFn:({queryKey})=>getFollowers(queryKey[1]),
+    enabled:!! queryUsername,
+  })
+  const {data:following}=useQuery({
+    queryKey:['following',queryUsername],
+    queryFn:({queryKey})=>getFollowing(queryKey[1]),
+    enabled:!! queryUsername,
   })
 const mutateFollowUnfollow=useMutation({
   mutationFn:(username)=>postFollowUnfollow(username),
@@ -36,7 +46,6 @@ const onHandleFollow=()=>{
   queryClient.invalidateQueries({queryKey:['isfollowing']})
   refetchIsFollowing()
 }
-
   return (
     <>
       <div className="w-screen h-screen ">
@@ -58,13 +67,12 @@ const onHandleFollow=()=>{
               </Link>
             </div>
             <div className="followersInfo flex gap-10 w-fit ">
-              <Link to={`/${data?.username}/followers`}>Followers</Link>
-              <Link to={`/${data?.username}/following`}>Following</Link>
+              <Link to={`/${data?.username}/friends/followers`}>Followers <span className="font-semibold">{followers?.data.data.length}</span></Link>
+              <Link to={`/${data?.username}/friends/following`}>Following <span className="font-semibold">{following?.data.data.length}</span></Link>
             </div>
             <div className="followers-container flex w-[150%] justify-between">
               <div className="flex w-fit min-w-64">
-
-              {/* TODO: add avaters of 8 followers  */}
+              {followers?.data.data.slice(0,8).map((data)=><Link key={data.username} to={`/${data.username}`}><DisplayPicture className={`w-10 h-10 rounded-full`}  username={data.username}/></Link>)}
               </div>
               <div className="profilebtn flex gap-10">
                 <Button variant='secondary' className={' gap-4  '}><MessageSquare />Message</Button>
