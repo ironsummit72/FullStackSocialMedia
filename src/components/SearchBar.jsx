@@ -25,7 +25,7 @@ function SearchBar() {
         />
         {isSuccess && (
           <div className="suggessioncard bg-white  w-72 min-h-20 max-h-96 shadow-md rounded-b-md overflow-y-auto absolute top-14 ">
-            {data?.map((data) => {
+            {data?.slice(0,5).map((data) => {
               return (
                 <Link
                   key={data._id}
