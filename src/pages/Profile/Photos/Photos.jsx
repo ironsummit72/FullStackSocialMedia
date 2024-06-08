@@ -5,5 +5,4 @@ function Photos() {
     <div>Photos</div>
   )
 }
-
 export default Photos

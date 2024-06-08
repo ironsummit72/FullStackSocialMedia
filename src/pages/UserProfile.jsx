@@ -108,10 +108,9 @@ const onHandleFollow=()=>{
             </NavLink>
             <NavLink  className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? "decoration-2 underline underline-offset-[70%]" : ""
-              } to={`/${data?.username}/friends`}>
+              } to={`/${data?.username}/friends/followers`}>
               <span className="font-bold text-gray-600">Friends</span>
             </NavLink>
-           
           </div>
         </nav>
         <Outlet  />
