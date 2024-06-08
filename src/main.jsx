@@ -19,13 +19,16 @@ import Video from "./pages/Video.jsx";
 import Posts from "./pages/Posts.jsx";
 import Reels from "./pages/Reels.jsx";
 import About from "./pages/About.jsx";
-import Photos from "./pages/Photos.jsx";
-import Friends from "./pages/Friends.jsx";
+import Photos from "./pages/Profile/Photos/Photos.jsx";
+import Friends from "./pages/Profile/Friends/Friends.jsx";
 import Videos from "./pages/Videos.jsx";
 import Settings from "./pages/Settings.jsx";
 import General from "./pages/Settings/General.jsx";
 import ProfileIntro from "./pages/Settings/ProfileIntro.jsx";
 import Profile from "./pages/Settings/Profile.jsx";
+import Following from "./pages/Profile/Friends/pages/Following.jsx";
+import Followers from "./pages/Profile/Friends/pages/Followers.jsx";
+
 
 
 const client = new QueryClient();
@@ -98,6 +101,16 @@ const router = createBrowserRouter([
           {
             path: "/:username/friends",
             element: <Friends />,
+            children:[
+              {
+                path:'following',
+                element:<Following/>
+              },
+              {
+                path:'followers',
+                element:<Followers/>
+              }
+            ]
           },
         ],
       },
