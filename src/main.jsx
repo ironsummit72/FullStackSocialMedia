@@ -28,6 +28,7 @@ import ProfileIntro from "./pages/Settings/ProfileIntro.jsx";
 import Profile from "./pages/Settings/Profile.jsx";
 import Following from "./pages/Profile/Friends/pages/Following.jsx";
 import Followers from "./pages/Profile/Friends/pages/Followers.jsx";
+import OwnProfile from "./pages/OwnProfile.jsx";
 
 
 
@@ -69,6 +70,13 @@ const router = createBrowserRouter([
            element:<ProfileIntro/>
           },
         ]
+      },
+      {
+        path: "/ownprofile",
+        element: <AuthRouter>
+        <OwnProfile/>
+      </AuthRouter>
+        ,
       },
       {
         path: "/:username",
@@ -124,6 +132,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  
   {
     path: "/login",
     element: <Login />,
