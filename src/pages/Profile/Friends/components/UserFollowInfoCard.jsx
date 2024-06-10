@@ -14,24 +14,25 @@ function UserFollowInfoCard({username}) {
         queryKey: ["userprofile", username],
         queryFn: ({ queryKey }) => getUserDetails(queryKey[1]),
     })
-    const {data:isfollowing,refetch:refetchIsFollowing}=useQuery({
+    const {data:isfollowing}=useQuery({
         queryKey:['isfollowing',username],
         queryFn:({queryKey})=>getIsFollowing(queryKey[1]),
         refetchOnWindowFocus:true
       })
       const mutateFollowUnfollow=useMutation({
         mutationFn:(username)=>postFollowUnfollow(username),
-        mutationKey:['followunfollow']
+        mutationKey:['followunfollow'],onSuccess:()=>{
+          queryClient.invalidateQueries({queryKey:['isfollowing']})
+          queryClient.invalidateQueries({queryKey:['followers']})
+          queryClient.invalidateQueries({queryKey:['following']})
+        }
       });
    const onHandleUnFollow=()=>{
     mutateFollowUnfollow.mutate(username)
-    queryClient.invalidateQueries({queryKey:['isfollowing']})
-    refetchIsFollowing()
     }
     const onHandleFollow=()=>{
         mutateFollowUnfollow.mutate(username)
         queryClient.invalidateQueries({queryKey:['isfollowing']})
-        refetchIsFollowing()
    }
   return (
 
