@@ -7,6 +7,7 @@ import { Button } from "@/shadcomponents/ui/button";
 import { Check, MessageSquare, Pencil, UserPlus } from "lucide-react";
 import { useSelector } from "react-redux";
 
+
 function UserProfile() {
   const loggedInuser=useSelector((state)=>state.userData?.username)
   const queryClient = useQueryClient()
@@ -16,7 +17,7 @@ function UserProfile() {
     queryFn: ({ queryKey }) => getUserDetails(queryKey[1]),
   });
    const queryUsername=data?.username;
-   const {data:isfollowing,refetch:refetchIsFollowing}=useQuery({
+   const {data:isfollowing}=useQuery({
     queryKey:['isfollowing',username],
     queryFn:({queryKey})=>getIsFollowing(queryKey[1]),
     enabled:!! queryUsername,
@@ -34,17 +35,18 @@ function UserProfile() {
   })
 const mutateFollowUnfollow=useMutation({
   mutationFn:(username)=>postFollowUnfollow(username),
-  mutationKey:['followunfollow']
+  mutationKey:['followunfollow'],
+  onSuccess:()=>{
+    queryClient.invalidateQueries({queryKey:['isfollowing']})
+    queryClient.invalidateQueries({queryKey:['followers']})
+    queryClient.invalidateQueries({queryKey:['following']})
+  }
 });
 const onHandleUnFollow=()=>{
 mutateFollowUnfollow.mutate(queryUsername)
-queryClient.invalidateQueries({queryKey:['isfollowing']})
-refetchIsFollowing()
 }
 const onHandleFollow=()=>{
   mutateFollowUnfollow.mutate(queryUsername)
-  queryClient.invalidateQueries({queryKey:['isfollowing']})
-  refetchIsFollowing()
 }
   return (
     <>
@@ -76,7 +78,7 @@ const onHandleFollow=()=>{
               </div>
               <div className="profilebtn flex gap-10">
                 <Button variant='secondary' className={' gap-4  '}><MessageSquare />Message</Button>
-                {loggedInuser!==username? isfollowing?.data.data==true ? <Button onClick={onHandleUnFollow} className='px-10 gap-4'><Check/> Following</Button>: <Button onClick={onHandleFollow} className='px-10 gap-4'><UserPlus/> Follow</Button>:<Button asChild><Link className="gap-2" to='/set/dp'><Pencil /> Edit Avatar</Link></Button>}
+                {loggedInuser!==username? isfollowing?.data.data==true ? <Button variant='secondary' onClick={onHandleUnFollow} className='px-10 gap-4'><Check/> Following</Button>: <Button disabled={mutateFollowUnfollow.isPending} onClick={onHandleFollow} className='px-10 gap-4'><UserPlus/> Follow</Button>:<Button asChild><Link className="gap-2" to='/set/dp'><Pencil /> Edit Avatar</Link></Button>}
               </div>
               </div>
           </div>
