@@ -6,6 +6,7 @@ import { useParams, Link, NavLink, Outlet } from "react-router-dom";
 import { Button } from "@/shadcomponents/ui/button";
 import { Check, MessageSquare, Pencil, UserPlus } from "lucide-react";
 import { useSelector } from "react-redux";
+import ProfileHoverCard from "@/components/ProfileHoverCard/ProfileHoverCard";
 
 
 function UserProfile() {
@@ -64,7 +65,7 @@ const onHandleFollow=()=>{
               </h1>
               <Link to={`../${data?.username}`}>
                 <span className="font-semibold text-gray-500">
-                  @{data?.username}
+                     @{data?.username}
                 </span>
               </Link>
             </div>
@@ -74,7 +75,7 @@ const onHandleFollow=()=>{
             </div>
             <div className="followers-container flex w-[150%] justify-between">
               <div className="flex w-fit min-w-64">
-              {followers?.data.data.slice(0,8).map((data)=><Link key={data.username} to={`/${data.username}`}><DisplayPicture className={`w-10 h-10 rounded-full`}  username={data.username}/></Link>)}
+              {followers?.data.data.slice(0,8).map((data)=><ProfileHoverCard  key={data.username}  username={`${data.username}`}><Link to={`/${data?.username}`}><DisplayPicture className={`w-10 h-10 rounded-full`}  username={data.username}/></Link></ProfileHoverCard>)}
               </div>
               <div className="profilebtn flex gap-10">
                 <Button variant='secondary' className={' gap-4  '}><MessageSquare />Message</Button>
