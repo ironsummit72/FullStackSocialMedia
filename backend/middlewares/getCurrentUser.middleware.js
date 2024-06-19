@@ -6,7 +6,6 @@ const getCurrentUser = (req, res, next) => {
 	if (token) {
 		jwt.verify(token, EnvConf.JWT_SECRET, (err, decodedToken) => {
 			if (err) throw Error(err)
-			console.log(decodedToken)
 			req.user = decodedToken
 			next()
 		})

@@ -9,7 +9,6 @@ const isUserAuthenticated = (req, res, next) => {
 				console.log(err)
 				res.status(401).json(new ApiResponse('unauthorized', 401, null, err.message, '/login'))
 			} else {
-				console.log(decodedToken)
 				next()
 			}
 		})

@@ -8,7 +8,6 @@ router.get('/', (req, res) => {
 	const token = req.cookies.sessionId
 	if (token) {
 		jwt.verify(token, EnvConf.JWT_SECRET, (err, decodedToken) => {
-			console.log(decodedToken)
 			res.json(new ApiResponse('success', 200, decodedToken, 'current user', '/'))
 		})
 	} else {
