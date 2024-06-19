@@ -1,4 +1,5 @@
 import express from 'express'
+import morgan from 'morgan'
 import EnvConf from './conf/environmentVariables.js'
 import connectDB from './utils/connectDb.util.js'
 import authRouter from './routes/auth.routes.js'
@@ -20,7 +21,7 @@ const app = express()
 const port = EnvConf.APP_PORT
 
 connectDB()
-
+app.use(morgan('tiny'));
 app.use(
 	cors({
 		origin: EnvConf.ORIGIN_URL,

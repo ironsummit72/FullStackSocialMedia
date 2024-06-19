@@ -7,10 +7,9 @@ export default function connectDB()
     mongoose
 	.connect(`${EnvConf.DB_URL}${EnvConf.DB_NAME}`)
 	.then((res) => {
-		console.log('database connected successfully ', res.connection.host)
+		console.log('database connected successfully ',`${res.connection.host}:${res.connection.port}`)
 	})
 	.catch((err) => {
 		console.log(err)
 	})
-
 }
