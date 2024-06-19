@@ -41,7 +41,7 @@ function HoverContent({username}) {
       });
       const {data:photoData}=useQuery({
         queryKey:['photosintro',username],
-        queryFn:({queryKey})=>getPhotosIntroCard(queryKey[1])
+        queryFn:({queryKey})=>getPhotosIntroCard(queryKey[1],3)
       })
       const onHandleUnFollow=()=>{
         mutateFollowUnfollow.mutate(username)
