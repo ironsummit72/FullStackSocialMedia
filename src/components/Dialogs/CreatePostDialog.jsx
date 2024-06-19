@@ -98,12 +98,10 @@ import useReactQuery from '@/hooks/useReactQuery';
    setSuggessionEnable(true)
   }
     }
-  
-    console.log("log",queryData);
     const form=useForm()
     const submitHandler = (data) => {
-    const {caption,postvisibility} = data
-   console.log(caption,postvisibility);
+    const {postvisibility} = data
+    const caption=textAreaRef?.current.value
    if(selectedFiles.length!==0)
    {
     const formData = new FormData();
@@ -189,7 +187,7 @@ import useReactQuery from '@/hooks/useReactQuery';
               </div>
               <div className="cap overflow-auto ">
                 <Textarea
-                  {...form.register("caption")}
+                  {...form.register('caption')}
                   onKeyUp={handleOnKeyUp}
                   ref={textAreaRef}
                   className="border-none outline-0 text-md focus:outline-0 resize-none"
