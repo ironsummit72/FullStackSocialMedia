@@ -9,7 +9,7 @@ router.get('/displaypicture', async (req, res) => {
 	const {username} = req.user
 	if (username) {
 		const userData = await userModel.findOne({username})
-		const readableStream = fs.createReadStream(`./uploads/displaypicture/${userData.displaypicture}`)
+		const readableStream = fs.createReadStream(`./uploads/displaypicture/${userData?.displaypicture}`)
 		readableStream.on('data', (chunk) => res.write(chunk))
 		readableStream.on('end', () => res.end())
 		readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
