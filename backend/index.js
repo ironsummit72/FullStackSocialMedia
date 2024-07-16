@@ -14,14 +14,15 @@ import searchRouter from './routes/search.routes.js'
 import profileRouter from './routes/profile.routes.js'
 import usersRouter from './routes/users.routes.js'
 import fileRouter from './routes/files.routes.js'
-
+import postRouter from './routes/post.routes.js'
+import feedRouter from './routes/feed.routes.js'
 import cors from 'cors'
 import getCurrentUser from './middlewares/getCurrentUser.middleware.js'
 const app = express()
 const port = EnvConf.APP_PORT
 
 connectDB()
-app.use(morgan('tiny'));
+app.use(morgan('tiny'))
 app.use(
 	cors({
 		origin: EnvConf.ORIGIN_URL,
@@ -33,18 +34,19 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use('/auth', authRouter)
 app.use(getCurrentUser)
-
 app.use(express.static('uploads'))
 app.use('/create', userAuth, createRouter)
-app.use('/set',userAuth,setRouter)
- app.use('/resource',resourceRouter)
- app.use('/check',checkRouter)
- app.use('/search',searchRouter)
- app.use('/profile',profileRouter)
- app.use('/users',usersRouter)
- app.use('/files',fileRouter)
+app.use('/set', userAuth, setRouter)
+app.use('/post', postRouter)
+app.use('/resource', resourceRouter)
+app.use('/check', checkRouter)
+app.use('/search', searchRouter)
+app.use('/profile', profileRouter)
+app.use('/users', usersRouter)
+app.use('/feed', feedRouter)
+app.use('/files', fileRouter)
 
-app.use('/getcurrentuser',credRouter)
+app.use('/getcurrentuser', credRouter)
 
 app.listen(port, () => {
 	console.log(`listening on ${port}`)
