@@ -46,7 +46,7 @@ export function postFollowUnfollow(username) {
   );
   return fetchData;
 }
-export function getPhotosIntroCard(username,limit=9) {
+export function getPhotosIntroCard(username, limit = 9) {
   let fetchData = axiosInstanceWithCredentials.get(
     `/resource/photos/${username}?limit=${limit}`
   );
@@ -73,10 +73,22 @@ export function getDisplayPicture(username) {
   }
 }
 export function getCoverPicture(username) {
-    if (username) {
-      let fetchData = axiosInstanceWithCredentials
-        .get(`resource/coverpicture/${username}`, { responseType: "blob" })
-        .then((res) => res.data);
-      return fetchData;
-    } 
+  if (username) {
+    let fetchData = axiosInstanceWithCredentials
+      .get(`resource/coverpicture/${username}`, { responseType: "blob" })
+      .then((res) => res.data);
+    return fetchData;
   }
+}
+export function getPost(postId) {
+  if (postId) {
+    let fetchData = axiosInstanceWithCredentials
+      .get(`/post/${postId}`)
+      .then((res) => res.data.data);
+    return fetchData;
+  }
+}
+export function getAllPostFeed(){
+  let fetchData=axiosInstanceWithCredentials.get(`/feed/public`).then((res) => res.data.data);
+  return fetchData;
+}

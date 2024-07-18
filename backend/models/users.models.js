@@ -31,6 +31,7 @@ const userSchema = new Schema(
 		wentTo: {type: String, default: ''},
 		livesIn: {type: String, default: ''},
 		RelationshipStatus: {type: String, enum: ['SINGLE', 'INRELATIONSHIP', 'MARRIED'], default: 'SINGLE'},
+		likedPosts: [{type: Schema.Types.ObjectId, ref:'post'}]
 	},
 	{timestamps: true},
 )
