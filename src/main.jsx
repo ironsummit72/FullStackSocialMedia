@@ -29,8 +29,7 @@ import Profile from "./pages/Settings/Profile.jsx";
 import Following from "./pages/Profile/Friends/pages/Following.jsx";
 import Followers from "./pages/Profile/Friends/pages/Followers.jsx";
 import OwnProfile from "./pages/OwnProfile.jsx";
-
-
+import PageNotFound from "./pages/PageNotFound.jsx";
 
 const client = new QueryClient();
 const router = createBrowserRouter([
@@ -55,28 +54,29 @@ const router = createBrowserRouter([
       },
       {
         path: "/settings",
-        element: (<Settings />),
-        children:[
+        element: <Settings />,
+        children: [
           {
-           path:'general',
-           element:<General/>
+            path: "general",
+            element: <General />,
           },
           {
-           path:'profile',
-           element:<Profile/>
+            path: "profile",
+            element: <Profile />,
           },
           {
-           path:'profileintro',
-           element:<ProfileIntro/>
+            path: "profileintro",
+            element: <ProfileIntro />,
           },
-        ]
+        ],
       },
       {
         path: "/ownprofile",
-        element: <AuthRouter>
-        <OwnProfile/>
-      </AuthRouter>
-        ,
+        element: (
+          <AuthRouter>
+            <OwnProfile />
+          </AuthRouter>
+        ),
       },
       {
         path: "/:username",
@@ -109,16 +109,16 @@ const router = createBrowserRouter([
           {
             path: "/:username/friends",
             element: <Friends />,
-            children:[
+            children: [
               {
-                path:'following',
-                element:<Following/>
+                path: "following",
+                element: <Following />,
               },
               {
-                path:'followers',
-                element:<Followers/>
-              }
-            ]
+                path: "followers",
+                element: <Followers />,
+              },
+            ],
           },
         ],
       },
@@ -132,7 +132,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-  
+
   {
     path: "/login",
     element: <Login />,
@@ -159,7 +159,7 @@ const router = createBrowserRouter([
       },
     ],
   },
- 
+  { path: "/user-not-found", element: <PageNotFound /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
