@@ -16,6 +16,7 @@ import usersRouter from './routes/users.routes.js'
 import fileRouter from './routes/files.routes.js'
 import postRouter from './routes/post.routes.js'
 import feedRouter from './routes/feed.routes.js'
+import likeRouter from './routes/like.routes.js'
 import cors from 'cors'
 import getCurrentUser from './middlewares/getCurrentUser.middleware.js'
 const app = express()
@@ -45,6 +46,7 @@ app.use('/profile', profileRouter)
 app.use('/users', usersRouter)
 app.use('/feed', feedRouter)
 app.use('/files', fileRouter)
+app.use('/like', likeRouter)
 
 app.use('/getcurrentuser', credRouter)
 
