@@ -10,8 +10,8 @@ router.post('/:postId/like', async function (req, res) {
 	if (loggedInUser && postId) {
 		const userData = await userModel.findById(loggedInUser)
 		const postData = await postModel.findById(postId)
-		const indexOfUserData = userData.likedPosts.indexOf(postId)
-		const indexOfPostData = postData.likes.indexOf(userData.id)
+		const indexOfUserData = userData?.likedPosts.indexOf(postId)
+		const indexOfPostData = postData?.likes.indexOf(userData?.id)
 		if (indexOfUserData === -1 && indexOfPostData == -1) {
 			userData.likedPosts.push(postId)
 			await userData.save()
@@ -34,8 +34,8 @@ router.get('/:postId/isliked', async function (req, res) {
 	if (loggedInUser && postId) {
 		const userData = await userModel.findById(loggedInUser)
 		const postData = await postModel.findById(postId)
-		const indexOfUserData = userData.likedPosts.indexOf(postId)
-		const indexOfPostData = postData.likes.indexOf(userData.id)
+		const indexOfUserData = userData?.likedPosts.indexOf(postId)
+		const indexOfPostData = postData?.likes.indexOf(userData?.id)
 		if (indexOfUserData === -1 && indexOfPostData === -1) {
 			res.status(200).json(new ApiResponse(200, 'success', false, `post is not liked`, null))
 		} else {
