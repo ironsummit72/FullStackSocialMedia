@@ -13,23 +13,47 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/shadcomponents/ui/carousel"
+
 import { Button } from "@/shadcomponents/ui/button"
 import DisplayPicture from "../DisplayPicture"
-import { useQuery } from "@tanstack/react-query"
-import { getPost } from "@/api/QueryFunctions"
+import { useMutation, useQuery,useQueryClient } from "@tanstack/react-query"
+import { getIsPostLiked, getPost, postAddLike } from "@/api/QueryFunctions"
 import { Heart, MessageCircle, Share } from "lucide-react"
 import linkifyText from "../../utils/linkifyText"
 import Photo from "../Photo"
 import Video from "../Video"
 import { useRef } from "react"
+import { useToast } from "@/shadcomponents/ui/use-toast"
+import ShowLikesDialog from "../Dialogs/ShowLikesDialog"
 function PostCard({postId}) {
+  const {toast}=useToast()
   const cardRef=useRef(null);
-  console.log(cardRef.current?.getBoundingClientRect().top);
+  const queryClient = useQueryClient()
+
   const query = useQuery({
     queryKey:['post',postId],
     queryFn:({queryKey})=>getPost(queryKey[1]),
     enabled:!!postId
   });
+  const likeMutation=useMutation({
+    mutationFn:(postId)=>postAddLike(postId),
+    onSuccess:(result)=>{
+      toast({
+        title:'like info',
+        description:result?.message
+      })
+      queryClient.invalidateQueries({queryKey:['isliked']})
+      queryClient.invalidateQueries({queryKey:['showlikes']})
+    }
+  });
+  const isLiked=useQuery({
+    queryKey:['isliked',postId],
+    queryFn:({queryKey})=>getIsPostLiked(queryKey[1]),
+    enabled:!!postId
+  })
+  const OnHandleLike=()=>{
+    likeMutation.mutate(postId);
+  }
   const [weekday,month,day,year,time]=new Date(query.data?.createdAt).toString().split(" ")
   const [cweekday,cmonth,cday,cyear,ctime]=new Date(Date.now()).toString().split(" ")
   return (
@@ -94,12 +118,17 @@ function PostCard({postId}) {
       <hr />
       <CardFooter className="flex items-center ">
         <div className="w-full h-full flex items-center mt-5  justify-around">
-          <Button
-            className="bg-transparent hover:bg-gray-50 border-none shadow-none"
-            size="icon"
-          >
-            <Heart size={30} color="black" />
-          </Button>
+          <div className="flex flex-col items-center">
+            <Button id="like" onClick={OnHandleLike}
+              className="bg-transparent hover:bg-gray-50 border-none shadow-none"
+              size="icon"
+            >
+              {isLiked.data?.isLiked? <Heart size={30} fill="red" /> :<Heart size={30} color="black" /> }
+            </Button>
+            <ShowLikesDialog postId={postId}>
+            <span className="font-semibold cursor-pointer" >{isLiked.data?.likeCount} likes</span>
+            </ShowLikesDialog>
+          </div>
           <Button
             className="bg-transparent hover:bg-gray-50 border-none shadow-none"
             size="icon"
