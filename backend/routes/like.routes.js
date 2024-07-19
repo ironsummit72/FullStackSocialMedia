@@ -37,9 +37,26 @@ router.get('/:postId/isliked', async function (req, res) {
 		const indexOfUserData = userData?.likedPosts.indexOf(postId)
 		const indexOfPostData = postData?.likes.indexOf(userData?.id)
 		if (indexOfUserData === -1 && indexOfPostData === -1) {
-			res.status(200).json(new ApiResponse(200, 'success', false, `post is not liked`, null))
+			res
+				.status(200)
+				.json(
+					new ApiResponse(200, 'success', {isLiked: false, likeCount: postData.likes.length}, `post is not liked`, null),
+				)
 		} else {
-			res.status(200).json(new ApiResponse(200, 'success', true, `post is liked`, null))
+			res
+				.status(200)
+				.json(new ApiResponse(200, 'success', {isLiked: true, likeCount: postData.likes.length}, `post is liked`, null))
+		}
+	}
+})
+router.get('/:postId/showlikes', async function (req, res) {
+	const {postId} = req.params
+	if (postId) {
+		const postData = await postModel.findById(postId).populate({path: 'likes', select: '-password'})
+		if (postData) {
+			res.status(200).json(new ApiResponse(200, 'success', postData, 'number of likes in a post', null))
+		} else {
+			res.status(200).json(new ApiResponse(200, 'success', postData, 'number of likes in a post', null))
 		}
 	}
 })
