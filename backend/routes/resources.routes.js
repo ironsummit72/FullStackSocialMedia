@@ -1,6 +1,6 @@
 import ApiResponse from '../utils/ApiResponse.util.js'
 import userModel from '../models/users.models.js'
-import Router from 'express'
+import {Router} from 'express'
 import fs from 'fs'
 import postModel from '../models/post.models.js'
 const router = Router()
