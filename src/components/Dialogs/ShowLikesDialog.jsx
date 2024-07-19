@@ -24,7 +24,7 @@ function ShowLikesDialog({children,postId}) {
     </DialogTrigger>
     <DialogContent>
         <DialogTitle>Likes</DialogTitle>
-      <DialogHeader className={`h-[80vh]`}>
+      <DialogHeader className={`h-auto max-h-[80vh]`}>
         <div className="overflow-y-scroll h-full">
        {showlikesquery?.data?.map((userdata)=><UserInfoCard key={userdata.username} username={userdata.username}/>)}
         </div>
