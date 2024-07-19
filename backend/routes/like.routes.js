@@ -40,12 +40,12 @@ router.get('/:postId/isliked', async function (req, res) {
 			res
 				.status(200)
 				.json(
-					new ApiResponse(200, 'success', {isLiked: false, likeCount: postData.likes.length}, `post is not liked`, null),
+					new ApiResponse(200, 'success', {isLiked: false, likeCount: postData?.likes.length}, `post is not liked`, null),
 				)
 		} else {
 			res
 				.status(200)
-				.json(new ApiResponse(200, 'success', {isLiked: true, likeCount: postData.likes.length}, `post is liked`, null))
+				.json(new ApiResponse(200, 'success', {isLiked: true, likeCount: postData?.likes.length}, `post is liked`, null))
 		}
 	}
 })
