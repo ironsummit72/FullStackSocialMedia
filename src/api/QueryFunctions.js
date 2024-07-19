@@ -92,3 +92,23 @@ export function getAllPostFeed(){
   let fetchData=axiosInstanceWithCredentials.get(`/feed/public`).then((res) => res.data.data);
   return fetchData;
 }
+export function postAddLike(postId)
+{
+  if(postId) {
+    let fetchData = axiosInstanceWithCredentials.post(`/like/${postId}/like`).then((res) => res.data);
+    return fetchData;
+  }
+}
+export function getIsPostLiked(postId)
+{
+  if(postId) {
+    let fetchData = axiosInstanceWithCredentials.get(`/like/${postId}/isliked`).then((res)=>res.data.data);
+    return fetchData;
+  }
+}
+export function getShowLikes(postId){
+  if(postId) {
+    let fetchData=axiosInstanceWithCredentials.get(`/like/${postId}/showlikes`).then((res)=>res.data.data.likes);
+    return fetchData;
+  }
+}
