@@ -13,16 +13,16 @@ router.post('/:postId/like', async function (req, res) {
 		const indexOfUserData = userData?.likedPosts.indexOf(postId)
 		const indexOfPostData = postData?.likes.indexOf(userData?.id)
 		if (indexOfUserData === -1 && indexOfPostData == -1) {
-			userData.likedPosts.push(postId)
-			await userData.save()
-			postData.likes.push(userData.id)
-			await postData.save()
+			userData?.likedPosts.push(postId)
+			await userData?.save()
+			postData?.likes.push(userData.id)
+			await postData?.save()
 			res.status(200).json(new ApiResponse(200, 'success', null, `you liked this post`, null))
 		} else {
 			userData.likedPosts.splice(indexOfUserData, 1)
-			await userData.save()
-			postData.likes.splice(indexOfPostData, 1)
-			await postData.save()
+			await userData?.save()
+			postData?.likes.splice(indexOfPostData, 1)
+			await postData?.save()
 			res.status(200).json(new ApiResponse(200, 'success', null, `you unliked this post`, null))
 		}
 	}
