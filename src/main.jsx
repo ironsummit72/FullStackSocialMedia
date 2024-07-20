@@ -30,6 +30,8 @@ import Following from "./pages/Profile/Friends/pages/Following.jsx";
 import Followers from "./pages/Profile/Friends/pages/Followers.jsx";
 import OwnProfile from "./pages/OwnProfile.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
+import LikedPost from "./pages/LikedPost.jsx";
+import SavedPost from "./pages/SavedPost.jsx";
 
 const client = new QueryClient();
 const router = createBrowserRouter([
@@ -49,6 +51,22 @@ const router = createBrowserRouter([
         element: (
           <AuthRouter>
             <Feed />
+          </AuthRouter>
+        ),
+      },
+      {
+        path: "/likedpost",
+        element: (
+          <AuthRouter>
+            <LikedPost />
+          </AuthRouter>
+        ),
+      },
+      {
+        path: "/saved",
+        element: (
+          <AuthRouter>
+            <SavedPost />
           </AuthRouter>
         ),
       },

@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shadcomponents/ui/dropdown-menu";
-import { User, Settings, LogOut } from "lucide-react";
+import { User, Settings, LogOut, Heart } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -38,13 +38,17 @@ function ProfileDropDown({ children }) {
         <DropdownMenuItem>
           <Settings className="mr-2 h-4 w-4" />
           <Link to={'/settings'}>Settings</Link>
-         
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+        <Heart className="mr-2 h-4 w-4" />
+          <Link to={'/likedpost'}>Liked Posts</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={onLogoutHandler}>
           <LogOut className="mr-2 h-4 w-4 text-red-500" />
           <span className="text-red-500">Log out</span>
         </DropdownMenuItem>
+       
       </DropdownMenuContent>
     </DropdownMenu>
   );
