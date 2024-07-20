@@ -68,8 +68,10 @@ function UserProfile() {
   if (isPending) {
     return <UserProfileSkeleton />;
   }
+  document.title=username
   return (
     <>
+   
       <div className="w-screen h-screen ">
         <div className="con w-full h-[90%] bg-white shadow-2xl">
           <CoverPicture username={data?.username} />
