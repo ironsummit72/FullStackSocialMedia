@@ -18,7 +18,11 @@ const postSchema = new Schema(
 			enum:['PUBLIC','ONLYME','FOLLOWERS'],
 			default:'PUBLIC'
 		},
-		likes: [{type: Schema.Types.ObjectId, ref:'user'}]
+		likes: [{type: Schema.Types.ObjectId, ref:'user'}],
+		hashtags:{
+			type:Array,
+			default:[],
+		}
 
 	},
 	{timestamps: true},
