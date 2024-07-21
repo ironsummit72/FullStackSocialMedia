@@ -112,3 +112,23 @@ export function getShowLikes(postId){
     return fetchData;
   }
 }
+export function getHashTags(tagname){
+  if(tagname) {
+    let fetchData=axiosInstanceWithCredentials.get(`/hashtags/${tagname}`).then((res)=>res.data.data);
+    return fetchData;
+  }
+}
+export function postFollowHashTag(tagname)
+{
+  if(tagname) {
+    let fetchData=axiosInstanceWithCredentials.post(`hashtags/${tagname}/follow`).then((res)=>res.data);
+    return fetchData;
+  }
+}
+export function getIsFollowingHashTag(tagname)
+{
+  if(tagname) {
+    let fetchData=axiosInstanceWithCredentials.get(`hashtags/${tagname}/isfollowing`).then((res)=>res.data.data);
+    return fetchData;
+  }
+}

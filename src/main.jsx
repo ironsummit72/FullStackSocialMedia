@@ -32,6 +32,7 @@ import OwnProfile from "./pages/OwnProfile.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
 import LikedPost from "./pages/LikedPost.jsx";
 import SavedPost from "./pages/SavedPost.jsx";
+import HashTags from "./pages/HashTags/HashTags.jsx";
 
 const client = new QueryClient();
 const router = createBrowserRouter([
@@ -67,6 +68,14 @@ const router = createBrowserRouter([
         element: (
           <AuthRouter>
             <SavedPost />
+          </AuthRouter>
+        ),
+      },
+      {
+        path: "/hashtag/:tagname",
+        element: (
+          <AuthRouter>
+            <HashTags />
           </AuthRouter>
         ),
       },
