@@ -19,7 +19,7 @@ const linkifyText = (text) => {
     if (hashtagRegex.test(part)) {
       const hashtag = part.slice(1);
       return (
-        <Link key={index} className='text-blue-500' to={`/t/${hashtag}`}>
+        <Link key={index} className='text-blue-500' to={`/hashtag/${hashtag}`}>
           {part}
         </Link>
       );
