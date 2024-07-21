@@ -32,9 +32,10 @@ const userSchema = new Schema(
 		livesIn: {type: String, default: ''},
 		RelationshipStatus: {type: String, enum: ['SINGLE', 'INRELATIONSHIP', 'MARRIED'], default: 'SINGLE'},
 		likedPosts: {
-			type:[{type: Schema.Types.ObjectId, ref:'post'}],
-			default: []
-		}
+			type: [{type: Schema.Types.ObjectId, ref: 'post'}],
+			default: [],
+		},
+		followingHashtags: [{type: Schema.Types.ObjectId, ref: 'Tags'}],
 	},
 	{timestamps: true},
 )
