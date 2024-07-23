@@ -36,7 +36,7 @@ router.get('/introdetails', async (req, res) => {
 })
 router.get('/followers/:username', async (req, res) => {
 	const username = req.params.username
-	const shuf=req.query.shuf
+	const shuf=req.query.shuf ?? 'true'
 	if (username) {
 		const userData = await userModel.findOne({username}).populate({path: 'followers', select: '-password'})
 		if (userData) {
@@ -56,10 +56,18 @@ router.get('/followers/:username', async (req, res) => {
 })
 router.get('/following/:username', async (req, res) => {
 	const username = req.params.username
+	const shuf=req.query.shuf ?? 'true'
 	if (username) {
 		const userData = await userModel.findOne({username}).populate({path: 'following', select: '-password'})
 		if (userData) {
-			res.status(200).json(new ApiResponse('success', 200, shuffle(userData.following), `following of ${username}`, null))
+			if(shuf==='true')
+			{
+				res.status(200).json(new ApiResponse('success', 200, shuffle(userData.following), `following of ${username}`, null))
+				
+			}else{
+				res.status(200).json(new ApiResponse('success', 200, userData.following, `following of ${username}`, null))
+
+			}
 		} else {
 			res.status(200).json(new ApiResponse('success', 200, userData.following, `no following of ${username}`, null))
 		}
