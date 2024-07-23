@@ -50,12 +50,12 @@ function OwnProfile() {
               </Link>
             </div>
             <div className="followersInfo flex gap-10 w-fit ">
-              <Link to={`/${data?.username}/friends/followers`}>Followers <span className="font-semibold">{followers?.data.data.length}</span></Link>
-              <Link to={`/${data?.username}/friends/following`}>Following <span className="font-semibold">{following?.data.data.length}</span></Link>
+              <Link to={`/${data?.username}/friends/followers`}>Followers <span className="font-semibold">{followers?.length}</span></Link>
+              <Link to={`/${data?.username}/friends/following`}>Following <span className="font-semibold">{following?.length}</span></Link>
             </div>
             <div className="followers-container flex w-[150%] justify-between">
               <div className="flex w-fit min-w-64">
-              {followers?.data.data.slice(0,8).map((data)=><Link key={data.username} to={`/${data.username}`}><DisplayPicture className={`w-10 h-10 rounded-full`}  username={data.username}/></Link>)}
+              {followers?.slice(0,8).map((data)=><Link key={data.username} to={`/${data.username}`}><DisplayPicture className={`w-10 h-10 rounded-full`}  username={data.username}/></Link>)}
               </div>
               <div className="profilebtn flex gap-10">
                 <Button variant='secondary' className={' gap-4  '}><MessageSquare />Message</Button>
