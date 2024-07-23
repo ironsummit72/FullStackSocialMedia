@@ -14,13 +14,12 @@ function StoryContainer({ children, className }) {
   const username = useSelector((state) => state.userData?.username);
   const { data } = useQuery({
     queryKey: ["following", username],
-    queryFn: ({ queryKey }) => getFollowing(queryKey[1]),
+    queryFn: ({ queryKey }) => getFollowing(queryKey[1],'false'),
     enabled: !!username,
   });
   return (
     <Carousel
-      className={`storyContainer  max-w-[70%]  m-auto  h-80 flex flex-grow-1  items-center gap-5   p-10 `}
-    >
+      className={`storyContainer  max-w-[70%]  m-auto  h-80 flex flex-grow-1  items-center gap-5   p-10 `}>
       <CarouselContent className="flex gap-5">
         <CreateStoryCard />
         {children}
