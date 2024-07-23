@@ -36,10 +36,19 @@ router.get('/introdetails', async (req, res) => {
 })
 router.get('/followers/:username', async (req, res) => {
 	const username = req.params.username
+	const shuf=req.query.shuf
 	if (username) {
 		const userData = await userModel.findOne({username}).populate({path: 'followers', select: '-password'})
 		if (userData) {
-			res.status(200).json(new ApiResponse('success', 200, shuffle(userData.followers), `followers of ${username}`, null))
+			if(shuf==='true')
+			{
+
+				res.status(200).json(new ApiResponse('success', 200,shuffle(userData.followers), `followers of ${username}`, null))
+			}
+			else{
+
+				res.status(200).json(new ApiResponse('success', 200,userData.followers, `followers of ${username}`, null))
+			}
 		} else {
 			res.status(200).json(new ApiResponse('success', 200, userData.followers, `no followers of ${username}`, null))
 		}
