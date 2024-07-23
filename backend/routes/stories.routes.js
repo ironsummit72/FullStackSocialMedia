@@ -13,13 +13,12 @@ router.get('/:username', async function (req, res) {
         const userData=await userModel.findOne({username});
         if(userData)
         {
-            const storyData=await StoryModel.findOne({user:userData._id}).populate({path:'user',select:'-password'});
+            const storyData=await StoryModel.find({user:userData._id}).populate({path:'user',select:'-password'});
             if(storyData){
                 res.status(200).json(new ApiResponse(200,'success',storyData,`stories of ${username}`,null));
             }else{
                 res.status(404).json(new ApiResponse(404,'success',storyData,`no stories of ${username}`,null));
             }
-            
         }
 
 	}
