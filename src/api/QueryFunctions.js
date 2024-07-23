@@ -55,13 +55,13 @@ export function getPhotosIntroCard(username, limit = 9) {
 export function getFollowing(username) {
   let fetchData = axiosInstanceWithCredentials.get(
     `/profile/following/${username}`
-  );
+  ).then((res)=>res.data.data);
   return fetchData;
 }
 export function getFollowers(username) {
   let fetchData = axiosInstanceWithCredentials.get(
     `/profile/followers/${username}`
-  );
+  ).then((res)=>res.data.data);
   return fetchData;
 }
 export function getDisplayPicture(username) {
@@ -129,6 +129,12 @@ export function getIsFollowingHashTag(tagname)
 {
   if(tagname) {
     let fetchData=axiosInstanceWithCredentials.get(`hashtags/${tagname}/isfollowing`).then((res)=>res.data.data);
+    return fetchData;
+  }
+}
+export function getStoriesOfUser(username){
+  if(username) {
+    let fetchData=axiosInstanceWithCredentials.get(`stories/${username}`).then((res)=>res.data.data);
     return fetchData;
   }
 }

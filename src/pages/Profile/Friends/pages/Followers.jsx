@@ -11,10 +11,10 @@ function Followers() {
         queryFn:({queryKey})=>getFollowers(queryKey[1]),
        
       })
-  return (followers?.data.data.length >0 ? 
+  return (followers?.length >0 ? 
     <div className="w-full min-h-screen h-auto">
       <div className="followcontainer grid grid-cols-2 grid-rows-min">    
-        {followers?.data.data.map((followers)=> <UserFollowInfoCard key={followers?.username} username={followers?.username} />)}
+        {followers?.map((followers)=> <UserFollowInfoCard key={followers?.username} username={followers?.username} />)}
       </div>
     </div>:<div className='w-full  h-auto flex items-start justify-center'>
         <h1 className="text-2xl semi-bold">No followers</h1>

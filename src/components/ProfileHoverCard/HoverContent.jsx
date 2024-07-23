@@ -62,8 +62,8 @@ function HoverContent({username}) {
         </div>
         <div className="followersinfo mt-4">
         <div className="followersInfo flex gap-10 w-fit ">
-              <Link to={`/${data?.username}/friends/followers`}>Followers <span className="font-semibold">{followers?.data.data.length}</span></Link>
-              <Link to={`/${data?.username}/friends/following`}>Following <span className="font-semibold">{following?.data.data.length}</span></Link>
+              <Link to={`/${data?.username}/friends/followers`}>Followers <span className="font-semibold">{followers?.length}</span></Link>
+              <Link to={`/${data?.username}/friends/following`}>Following <span className="font-semibold">{following?.length}</span></Link>
             </div>
         </div>
         <div className="profilebtn flex gap-10">
