@@ -52,15 +52,15 @@ export function getPhotosIntroCard(username, limit = 9) {
   );
   return fetchData;
 }
-export function getFollowing(username) {
+export function getFollowing(username,shuf='true') {
   let fetchData = axiosInstanceWithCredentials.get(
-    `/profile/following/${username}`
+    `/profile/following/${username}?shuf=${shuf}`
   ).then((res)=>res.data.data);
   return fetchData;
 }
-export function getFollowers(username) {
+export function getFollowers(username,shuf='true') {
   let fetchData = axiosInstanceWithCredentials.get(
-    `/profile/followers/${username}`
+    `/profile/followers/${username}?shuf=${shuf}`
   ).then((res)=>res.data.data);
   return fetchData;
 }
