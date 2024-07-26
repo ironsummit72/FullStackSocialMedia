@@ -1,12 +1,12 @@
 import { axiosInstanceWithCredentials } from "@/axios/axiosInstance";
 import { useEffect, useState, useRef } from "react";
-function Video({ filename, className }) {
+function StoryVideo({ filename, className ,storyId}) {
   const [video, setVideo] = useState(null);
   const videoRef = useRef(null);
   useEffect(() => {
     if (filename) {
       axiosInstanceWithCredentials
-        .get(`files/${filename}`, { responseType: "blob" })
+        .get(`files/story/${filename}`, { responseType: "blob" })
         .then((response) => {
           setVideo(URL.createObjectURL(response.data));
         });
@@ -24,12 +24,9 @@ function Video({ filename, className }) {
       onMouseOver={() => {
         videoRef.current?.play();
       }}
-      onMouseLeave={() => {
-        videoRef.current.pause();
-      }}
     >
-      <video ref={videoRef} className={className} src={video} />
+      <video data-storyid={storyId} ref={videoRef} className={className} src={video} />
     </div>
   );
 }
-export default Video;
+export default StoryVideo;

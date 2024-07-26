@@ -138,3 +138,17 @@ export function getStoriesOfUser(username){
     return fetchData;
   }
 }
+export function getStoryById(storyId)
+{
+  if(storyId) {
+    let fetchData=axiosInstanceWithCredentials.get(`stories/sid/${storyId}`).then((res)=>res.data.data);
+    return fetchData;
+  }
+}
+export function getStoryViews(storyId)
+{
+  if(storyId) {
+    let fetchData=axiosInstanceWithCredentials.get(`stories/showviews/${storyId}`).then((res)=>res.data.data);
+    return fetchData;
+  }
+}

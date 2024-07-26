@@ -23,6 +23,11 @@ function StoryContainer({ children, className }) {
       <CarouselContent className="flex gap-5">
         <CreateStoryCard />
         {children}
+        <StoryPreviewCard
+            key={username}
+            username={username}
+            className={"basis-1/3"}
+          />
         {data?.map((users) => (
           <StoryPreviewCard
             key={users.username}

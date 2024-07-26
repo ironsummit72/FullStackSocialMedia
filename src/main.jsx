@@ -33,6 +33,7 @@ import PageNotFound from "./pages/PageNotFound.jsx";
 import LikedPost from "./pages/LikedPost.jsx";
 import SavedPost from "./pages/SavedPost.jsx";
 import HashTags from "./pages/HashTags/HashTags.jsx";
+import Stories from "./pages/Stories/Stories.jsx";
 
 const client = new QueryClient();
 const router = createBrowserRouter([
@@ -76,6 +77,14 @@ const router = createBrowserRouter([
         element: (
           <AuthRouter>
             <HashTags />
+          </AuthRouter>
+        ),
+      },
+      {
+        path: "/stories/:username",
+        element: (
+          <AuthRouter>
+            <Stories />
           </AuthRouter>
         ),
       },
