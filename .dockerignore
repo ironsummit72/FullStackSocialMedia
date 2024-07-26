@@ -1,0 +1,9 @@
+node_modules
+.eslintrc.cjs
+.env
+.sample.env
+README.md
+todo.md
+.gitignore
+concepts
+.vscode
