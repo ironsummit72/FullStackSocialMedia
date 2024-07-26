@@ -15,7 +15,6 @@ function Video({ filename, className }) {
   return (
     <div
       onClick={() => {
-        console.log("video clicked");
         if (videoRef.current.paused) {
           videoRef.current?.play();
         } else {
