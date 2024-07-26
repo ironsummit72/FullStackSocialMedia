@@ -1,0 +1,38 @@
+services:
+  database: 
+   image: mongo:latest
+   ports:
+     - "27016:27017"
+   container_name: mongodbsm
+
+  nginx: 
+   depends_on: 
+    - backend
+    - frontend
+   restart: always
+   build:
+    context: ./webserver
+    dockerfile: Dockerfile
+   ports:
+     - "3005:80"
+   
+  backend: 
+   build:
+    dockerfile: Dockerfile
+    context: ./backend
+   environment:
+    - PORT=5001
+    - DB_URL=mongodb://mongodbsm:27017/
+    - DB_NAME=socialmediafullstack
+    - JWT_SECRET='monza'
+    - ORIGIN_URL=http://localhost:3005
+   ports:
+   - "5001:5001"
+  
+  frontend: 
+   stdin_open: true
+   environment: 
+    - VITE_BACKEND_URL='http://backend:5001'
+   build:
+    dockerfile: Dockerfile
+    
