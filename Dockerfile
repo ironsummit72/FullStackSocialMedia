@@ -3,6 +3,7 @@ WORKDIR /app
 COPY ./package.json ./
 RUN npm i
 COPY . .
+ENV VITE_BACKEND_URL=/api
 RUN npm run build
 
 FROM nginx:latest
