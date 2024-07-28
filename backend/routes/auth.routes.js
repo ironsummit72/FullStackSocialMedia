@@ -6,8 +6,9 @@ import {createToken} from '../utils/JwtAuth.utils.js'
 const router = Router()
 
 router.post('/login', async (req, res) => {
-	const {username, password} = req.body
-	const userData = await userModel.findOne({username})
+	const {username, password,email} = req.body
+	if(username) {
+		const userData = await userModel.findOne({username})
 	if (userData) {
 		const [hash, salt] = userData.password.split('.')
 		const isPasswordCorrect = verifyPassword(password, hash, salt)
@@ -27,6 +28,29 @@ router.post('/login', async (req, res) => {
 		}
 	} else {
 		res.status(401).json(new ApiResponse('error', 401, null, 'sorry user not found please register first', '/register'))
+	}
+	}else if(email) {
+		const userData = await userModel.findOne({email})
+	if (userData) {
+		const [hash, salt] = userData.password.split('.')
+		const isPasswordCorrect = verifyPassword(password, hash, salt)
+		if (isPasswordCorrect) {
+			res.cookie(
+				'sessionId',
+				createToken({
+					id: userData._id,
+					username: userData.username,
+					fullName: `${userData.firstname} ${userData.lastname}`,
+				}),
+				{httpOnly: true},
+			)
+			res.status(200).json(new ApiResponse('success', 200, userData.username, 'login success', '/'))
+		} else {
+			res.status(400).json(new ApiResponse('error', 400, null, 'incorrect password', null))
+		}
+	} else {
+		res.status(401).json(new ApiResponse('error', 401, null, 'sorry user not found please register first', '/register'))
+	}
 	}
 })
 router.post('/register', async (req, res) => {

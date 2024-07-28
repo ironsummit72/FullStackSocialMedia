@@ -1,5 +1,15 @@
 import { z } from "zod";
-const LoginFormSchema = z.object({
+const LoginFormSchemaEmail = z.object({
+  email: z
+  .string()
+  .min(1, { message: "this field must be field" })
+  .email({ message: "this is not a valid email address" }).trim(),
+  password: z
+    .string()
+    .min(5, { message: "password should be at least 5 characters" })
+    .max("200", { message: "password must not exceed 200 characters" }).trim(),
+});
+const LoginFormSchemaUsername = z.object({
   username: z
     .string()
     .min(2, {
@@ -42,4 +52,4 @@ const RegisterFormSchema = z
     path: ["cpassword"],
   });
 
-export { LoginFormSchema, RegisterFormSchema };
+export { LoginFormSchemaEmail,LoginFormSchemaUsername, RegisterFormSchema };
