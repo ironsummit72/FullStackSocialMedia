@@ -4,6 +4,8 @@ services:
     ports:
       - "27016:27017"
     container_name: mongodbsm
+    volumes:
+      - db_data_mongo:/data/db
 
   nginx:
     depends_on:
@@ -29,6 +31,8 @@ services:
     ports:
       - "5001:5001"
     restart: always
+    volumes:
+      - file_data:/app/uploads
 
  
 
@@ -37,3 +41,7 @@ services:
    - backend
    build: .
    stdin_open: true
+
+volumes:
+  db_data_mongo:
+  file_data:
