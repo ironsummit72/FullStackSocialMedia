@@ -1,5 +1,5 @@
 
-# socialmedia (Node.js application (Express) backend)
+# FullStackSocialMedia Mern (Mongodb,express,React,Nodejs) application
 
 This app is a mock of social media. which have features like creating an account and uploading photos and videos. also interect with other users. this app uses JWT auth js for authentication. 
 
