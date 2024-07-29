@@ -3,6 +3,7 @@ import ApiResponse from '../utils/ApiResponse.util.js'
 import multerUpload from '../middlewares/multer.middleware.js'
 import StoryModel from '../models/stories.models.js'
 import userModel from '../models/users.models.js'
+
 // import the stories model here.
 const router = Router()
 
@@ -95,6 +96,37 @@ router.get('/showviews/:storyId', async function (req, res) {
 		}
 	} else {
 		res.status(404).json(new ApiResponse('not found', 404, null, 'story not found', null))
+	}
+})
+
+
+
+router.get('/hasstory/:username', async function (req, res) {
+	const {username} = req.params
+	if (username) {
+		// import the stories model and find the stories of specific user
+		const userData = await userModel.findOne({username})
+		if (userData) {
+			const storyData = await StoryModel.find({user: userData._id}).populate({path: 'user', select: '-password'})
+			if (storyData.length>0) {
+				res.status(200).json(new ApiResponse(200, 'success', true, `stories of ${username}`, null))
+			} else {
+				res.status(404).json(new ApiResponse(404, 'success', false, `no stories of ${username}`, null))
+			}
+		}
+	}
+})
+
+
+router.delete('/:storyId', async function (req, res) {
+	const {storyId} = req.params
+	if (storyId) {
+		const storyData = await StoryModel.findByIdAndDelete(storyId)
+		if (storyData) {
+			res.status(204).json(new ApiResponse('no-content', 204, null, 'story deleted successfully', null))
+		} else {
+			res.status(404).json(new ApiResponse('not found', 204, null, 'story not found', null))
+		}
 	}
 })
 export default router
