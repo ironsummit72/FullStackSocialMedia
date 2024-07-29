@@ -23,8 +23,9 @@ function StoryPreviewCard({ className, username }) {
           {/* className=" shadow-xl rounded-md ml-5 transition ease-in-out delay-150  hover:scale-105 cursor-pointer p-0"> */}
           <div className="h-full w-full flex flex-col justify-between">
             <DisplayPicture
-              className="w-10 h-10 rounded-full z-10 absolute border-blue-600 border-4"
+              className="w-10 h-10 rounded-full z-10 absolute "
               username={username}
+              showStoryBorder={true}
               />
               {
                  data[data.length-1]?.content?.mimetype.split('/')[0]==='image'?  <StoryPreviewPhoto

@@ -59,7 +59,7 @@ function PostCard({postId}) {
   return (
     <Card className="w-[70%]" ref={cardRef}>
       <CardHeader className="flex flex-row gap-2 items-center">
-        <DisplayPicture
+        <DisplayPicture showStoryBorder={true}
           className="w-14 h-14 rounded-full"
           username={query.data?.user?.username}
         />
