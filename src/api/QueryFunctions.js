@@ -152,3 +152,16 @@ export function getStoryViews(storyId)
     return fetchData;
   }
 }
+export function deleteStory(storyId)
+{
+  if(storyId) {
+    let fetchData=axiosInstanceWithCredentials.delete(`/stories/${storyId}`).then((res)=>res.data.data);
+    return fetchData;
+  }
+}
+export function getHasStory(username){
+  if(username) {
+    let fetchData=axiosInstanceWithCredentials.get(`/stories/hasstory/${username}`).then((res)=>res.data.data);
+    return fetchData;
+  }
+}
