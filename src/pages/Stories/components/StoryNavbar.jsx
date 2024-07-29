@@ -3,6 +3,7 @@ import time_ago from "@/utils/CalculateTimeElasped";
 import { Ellipsis, Eye } from "lucide-react";
 import { useSelector } from "react-redux";
 import StoryViewDrawer from "./StoryViewDrawer";
+import StoryDropDown from "./StoryDropDown";
 
 function StoryNavbar({ username, storyData: data }) {
   const loggedInusername = useSelector((state) => state?.userData?.username);
@@ -43,7 +44,9 @@ function StoryNavbar({ username, storyData: data }) {
           </StoryViewDrawer>
       </div>
       <div className="menu ml-[50%] text-white">
+        <StoryDropDown storyId={data?._id}>
         <Ellipsis className="cursor-pointer" />
+        </StoryDropDown>
       </div>
     </div>
   );
