@@ -166,6 +166,27 @@ const router = createBrowserRouter([
         path: "/watch",
         element: <Video />,
       },
+      {
+        path: "set",
+        children: [
+          {
+            path: "dp",
+            element: (
+              <AuthRouter>
+                <SetDisplayPicture />
+              </AuthRouter>
+            ),
+          },
+          {
+            path: "cover",
+            element: (
+              <AuthRouter>
+                <SetCoverPicture />
+              </AuthRouter>
+            ),
+          },
+        ],
+      },
     ],
   },
 
@@ -176,24 +197,6 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
-  },
-  {
-    path: "/set",
-    element: (
-      <AuthRouter>
-        <SetProfile />
-      </AuthRouter>
-    ),
-    children: [
-      {
-        path: "dp",
-        element: <SetDisplayPicture />,
-      },
-      {
-        path: "cover",
-        element: <SetCoverPicture />,
-      },
-    ],
   },
   { path: "/user-not-found", element: <PageNotFound /> },
 ]);
