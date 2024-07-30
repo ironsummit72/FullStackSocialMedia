@@ -2,11 +2,12 @@ import {Router} from 'express'
 import TagsModel from '../models/tags.models.js'
 import ApiResponse from '../utils/ApiResponse.util.js'
 import userModel from '../models/users.models.js'
+
 const router = Router()
 router.get('/:tagname', async function (req, res) {
 	const {tagname} = req.params
 	if (tagname) {
-		const tagData = await TagsModel.findOne({tagName: tagname}).populate({path: 'posts'})
+		const tagData = await TagsModel.findOne({tagName: tagname}).populate({path: 'posts',match:{postvisibility:'PUBLIC'}})
 		if (tagData) {
 			res.status(200).json(new ApiResponse('success', 200, tagData, `tag data related to ${tagname}`, null))
 		} else {
