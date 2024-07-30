@@ -4,6 +4,7 @@ import { Ellipsis, Eye } from "lucide-react";
 import { useSelector } from "react-redux";
 import StoryViewDrawer from "./StoryViewDrawer";
 import StoryDropDown from "./StoryDropDown";
+import { Link } from "react-router-dom";
 
 function StoryNavbar({ username, storyData: data }) {
   const loggedInusername = useSelector((state) => state?.userData?.username);
@@ -14,10 +15,10 @@ function StoryNavbar({ username, storyData: data }) {
         username={username}
       />
       <div className="storyinfo flex flex-col">
-        <h2 className="text-white font-semibold">
+        <Link to={`/${username}`} className="text-white font-semibold">
           { data?.user?.firstname }{" "}
           { data?.user?.lastname}
-        </h2>
+        </Link>
         <span className="time text-white font-semibold">
           {time_ago(data?.createdAt)}
         </span>
