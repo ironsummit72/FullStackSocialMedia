@@ -3,6 +3,7 @@ import ApiResponse from '../utils/ApiResponse.util.js'
 import multerUpload from '../middlewares/multer.middleware.js'
 import StoryModel from '../models/stories.models.js'
 import userModel from '../models/users.models.js'
+import fs from 'fs';
 
 // import the stories model here.
 const router = Router()
@@ -123,6 +124,9 @@ router.delete('/:storyId', async function (req, res) {
 	if (storyId) {
 		const storyData = await StoryModel.findByIdAndDelete(storyId)
 		if (storyData) {
+			fs.unlink(storyData.content?.path,(err)=>{
+				console.error(err);
+			})
 			res.status(204).json(new ApiResponse('no-content', 204, null, 'story deleted successfully', null))
 		} else {
 			res.status(404).json(new ApiResponse('not found', 204, null, 'story not found', null))

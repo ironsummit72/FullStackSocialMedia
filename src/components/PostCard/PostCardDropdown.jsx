@@ -1,4 +1,4 @@
-import { deletePost } from "@/api/QueryFunctions";
+import { deletePost, getIsPostSaved, postSavePost } from "@/api/QueryFunctions";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,20 +6,21 @@ import {
   DropdownMenuTrigger,
 } from "@/shadcomponents/ui/dropdown-menu";
 import { useToast } from "@/shadcomponents/ui/use-toast";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation,useQuery,useQueryClient } from "@tanstack/react-query";
 
 import { Bookmark, Trash } from "lucide-react";
 import { useSelector } from "react-redux";
 function PostCardDropdown({ children, className, username, postId }) {
+  const queryClient=useQueryClient();
   const { toast } = useToast();
   const loggedInusername = useSelector((state) => state?.userData?.username);
-  const onDeletePostHandler = () => {
-    mutation.mutate(postId);
-  };
-
-  const mutation = useMutation({
+  const {data:isPostSaved}=useQuery({
+    queryKey:['ispostsaved',postId],
+    queryFn:({queryKey})=>getIsPostSaved(queryKey[1]),
+    enabled:!!postId
+  });
+  const deleteMutation = useMutation({
     mutationFn: (pid) => deletePost(pid),
-    mutationKey: [],
     onSuccess: (res) => {
       toast({
         title: "Post Deleted",
@@ -27,6 +28,22 @@ function PostCardDropdown({ children, className, username, postId }) {
       });
     },
   });
+  const savePostMutation = useMutation({
+    mutationFn: (pid) => postSavePost(pid),
+    onSuccess: (res) => {
+      toast({
+        title: "Post saved",
+        description: res?.message,
+      });
+      queryClient.invalidateQueries({queryKey:['ispostsaved']})
+    },
+  });
+  const onDeletePostHandler = () => {
+    deleteMutation.mutate(postId);
+  };
+  const onSavePostHandler=()=>{
+    savePostMutation.mutate(postId)
+  }
   return (
     <DropdownMenu className={className}>
       <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
@@ -37,10 +54,12 @@ function PostCardDropdown({ children, className, username, postId }) {
         className={className}
       >
         <div className={"flex flex-col gap-2"}>
-          <DropdownMenuItem>
-            <span className="flex gap-3">
+          <DropdownMenuItem onClick={onSavePostHandler}>
+           {isPostSaved? <span className="flex gap-3">
+              <Bookmark fill="black" /> Unsave Post
+            </span>: <span className="flex gap-3">
               <Bookmark /> Save Post
-            </span>
+            </span>}
           </DropdownMenuItem>
           {loggedInusername === username ? (
             <DropdownMenuItem onClick={onDeletePostHandler}>
