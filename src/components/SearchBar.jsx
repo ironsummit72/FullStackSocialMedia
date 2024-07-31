@@ -44,6 +44,7 @@ function SearchBar() {
                   <DisplayPicture
                     className={`w-10 h-10 rounded-full ml-5`}
                     username={data.username}
+                    showStoryBorder={true}
                   />
                   <span className="font-semibold">{data.fullName}</span>
                 </Link>
