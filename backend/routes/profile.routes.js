@@ -43,14 +43,14 @@ router.get('/followers/:username', async (req, res) => {
 			if(shuf==='true')
 			{
 
-				res.status(200).json(new ApiResponse('success', 200,shuffle(userData.followers), `followers of ${username}`, null))
+				res.status(200).json(new ApiResponse('success', 200,shuffle(userData?.followers), `followers of ${username}`, null))
 			}
 			else{
 
-				res.status(200).json(new ApiResponse('success', 200,userData.followers, `followers of ${username}`, null))
+				res.status(200).json(new ApiResponse('success', 200,userData?.followers, `followers of ${username}`, null))
 			}
 		} else {
-			res.status(200).json(new ApiResponse('success', 200, userData.followers, `no followers of ${username}`, null))
+			res.status(200).json(new ApiResponse('success', 200, userData?.followers, `no followers of ${username}`, null))
 		}
 	}
 })
@@ -62,14 +62,14 @@ router.get('/following/:username', async (req, res) => {
 		if (userData) {
 			if(shuf==='true')
 			{
-				res.status(200).json(new ApiResponse('success', 200, shuffle(userData.following), `following of ${username}`, null))
+				res.status(200).json(new ApiResponse('success', 200, shuffle(userData?.following), `following of ${username}`, null))
 				
 			}else{
-				res.status(200).json(new ApiResponse('success', 200, userData.following, `following of ${username}`, null))
+				res.status(200).json(new ApiResponse('success', 200, userData?.following, `following of ${username}`, null))
 
 			}
 		} else {
-			res.status(200).json(new ApiResponse('success', 200, userData.following, `no following of ${username}`, null))
+			res.status(200).json(new ApiResponse('success', 200, userData?.following, `no following of ${username}`, null))
 		}
 	}
 })
