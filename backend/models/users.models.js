@@ -36,6 +36,7 @@ const userSchema = new Schema(
 			default: [],
 		},
 		followingHashtags: [{type: Schema.Types.ObjectId, ref: 'Tags'}],
+		savedPosts:[{type: Schema.Types.ObjectId, ref: 'post'}]
 	},
 	{timestamps: true},
 )
