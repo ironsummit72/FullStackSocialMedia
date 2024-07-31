@@ -165,3 +165,10 @@ export function getHasStory(username){
     return fetchData;
   }
 }
+export function deletePost(postId)
+{
+  if(postId) {
+    let fetchData=axiosInstanceWithCredentials.delete(`/post/${postId}`).then((res)=>res.data.data);
+    return fetchData;
+  }
+}
