@@ -168,7 +168,20 @@ export function getHasStory(username){
 export function deletePost(postId)
 {
   if(postId) {
-    let fetchData=axiosInstanceWithCredentials.delete(`/post/${postId}`).then((res)=>res.data.data);
+    let fetchData=axiosInstanceWithCredentials.delete(`/post/${postId}`).then((res)=>res.data);
+    return fetchData;
+  }
+}
+export function postSavePost(postId)
+{  
+  if(postId) {
+    let fetchData=axiosInstanceWithCredentials.post(`post/savepost/${postId}`).then((res)=>res.data);
+    return fetchData;
+  }
+}
+export function getIsPostSaved(postId){
+  if(postId){
+    let fetchData=axiosInstanceWithCredentials.get(`/post/ispostsaved/${postId}`).then((res)=>res.data.data);
     return fetchData;
   }
 }
