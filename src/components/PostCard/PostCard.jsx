@@ -18,18 +18,20 @@ import { Button } from "@/shadcomponents/ui/button"
 import DisplayPicture from "../DisplayPicture"
 import { useMutation, useQuery,useQueryClient } from "@tanstack/react-query"
 import { getIsPostLiked, getPost, postAddLike } from "@/api/QueryFunctions"
-import { Heart, MessageCircle, Share } from "lucide-react"
+import {  Ellipsis, Globe2, Heart, MessageCircle, Share, User, Users } from "lucide-react"
 import linkifyText from "../../utils/linkifyText"
 import Photo from "../Photo"
 import Video from "../Video"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { useToast } from "@/shadcomponents/ui/use-toast"
 import ShowLikesDialog from "../Dialogs/ShowLikesDialog"
+import PostCardDropdown from "./PostCardDropdown"
+
+
 function PostCard({postId}) {
   const {toast}=useToast()
   const cardRef=useRef(null);
   const queryClient = useQueryClient()
-
   const query = useQuery({
     queryKey:['post',postId],
     queryFn:({queryKey})=>getPost(queryKey[1]),
@@ -57,17 +59,17 @@ function PostCard({postId}) {
   const [weekday,month,day,year,time]=new Date(query.data?.createdAt).toString().split(" ")
   const [cweekday,cmonth,cday,cyear,ctime]=new Date(Date.now()).toString().split(" ")
   return (
-    <Card className="w-[70%]" ref={cardRef}>
+    <Card className="w-[50%]" ref={cardRef}>
       <CardHeader className="flex flex-row gap-2 items-center">
         <DisplayPicture showStoryBorder={true}
           className="w-14 h-14 rounded-full"
-          username={query.data?.user?.username}
-        />
+          username={query.data?.user?.username}/>
         <div>
-          <CardTitle>
+          <CardTitle className="flex items-center gap-3 ">
             {query.data?.user?.firstname} {query.data?.user?.lastname}
+         {query.data?.postvisibility==="PUBLIC"?<Globe2 className="text-gray-500"/>:query.data?.postvisibility==="ONLYME"?<User className="text-gray-500"/>:query.data?.postvisibility==="FOLLOWERS"?<Users/>:""}
           </CardTitle>
-          <CardDescription>
+            <CardDescription>
             {" "}
             {cday === day
               ? time.split(":")[0] + ":" + time.split(":")[1] + " "
@@ -76,15 +78,18 @@ function PostCard({postId}) {
             {cyear === year ? "" : year}
           </CardDescription>
         </div>
+        <PostCardDropdown username={query.data?.user?.username} postId={postId} className="float-right relative bottom-3 left-[23rem]">
+        <Ellipsis className="float-right relative bottom-3 left-[22rem]"/>
+        </PostCardDropdown>
       </CardHeader>
-      <CardContent className="flex flex-col gap-3">
+      <CardContent className="flex flex-col gap-3 w-full">
         <p>{linkifyText(query.data?.caption)}</p>
-        <Carousel>
-          <CarouselContent className="-ml-2">
+        <Carousel className="w-full flex" >
+          <CarouselContent className="">
             {query.data?.media.map((media) => {
               if (media.mimetype.split("/")[0] === "image") {
                 return (
-                  <CarouselItem key={media.filename} className="pl-32">
+                  <CarouselItem key={media.filename}>
                     <Photo
                       className="w-auto h-[90vh]"
                       filename={media.filename}
@@ -116,7 +121,7 @@ function PostCard({postId}) {
         </Carousel>
       </CardContent>
       <hr />
-      <CardFooter className="flex items-center ">
+      <CardFooter className="flex items-center h-16">
         <div className="w-full h-full flex items-center mt-5  justify-around">
           <div className="flex flex-col items-center">
             <Button id="like" onClick={OnHandleLike}
@@ -137,8 +142,7 @@ function PostCard({postId}) {
           </Button>
           <Button
             className="bg-transparent hover:bg-gray-50 border-none shadow-none"
-            size="icon"
-          >
+            size="icon">
             <Share size={30} color="black" />
           </Button>
         </div>
