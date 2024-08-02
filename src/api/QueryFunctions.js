@@ -88,8 +88,8 @@ export function getPost(postId) {
     return fetchData;
   }
 }
-export function getAllPostFeed(){
-  let fetchData=axiosInstanceWithCredentials.get(`/feed/public`).then((res) => res.data.data);
+export function getAllPostFeed({pageParam}){
+  let fetchData=axiosInstanceWithCredentials.get(`/feed/public?page=${pageParam}&limit=5`).then((res) => res.data.data);
   return fetchData;
 }
 export function postAddLike(postId)
