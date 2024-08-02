@@ -27,7 +27,6 @@ function HashTags() {
       }
     },
   })
-  console.log("data pages",data?.pages);
   if (data?.pages) {
     return (
       <div className="w-full flex flex-col bg-gray-100/20 items-center gap-10">
