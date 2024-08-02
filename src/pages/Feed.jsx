@@ -17,7 +17,6 @@ function Feed() {
   });
   useEffect(() => {
     fetchNextPage()
-    console.log("fire",inView);
   }, [inView]);
   const {
     data,
@@ -32,7 +31,6 @@ function Feed() {
     queryFn: getAllPostFeed,
     initialPageParam: 1,
     getNextPageParam: (pages) => {
-      console.log(pages.totalPages, "lastpage");
       if (pages.currentPage < pages.totalPages) {
         return pages.currentPage + 1;
       } else {
