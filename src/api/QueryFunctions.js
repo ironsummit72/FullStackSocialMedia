@@ -112,6 +112,12 @@ export function getShowLikes(postId){
     return fetchData;
   }
 }
+export function getHashTagsInfiniteScroll(tagname,pageParam,limit){
+  if(tagname) {
+    let fetchData=axiosInstanceWithCredentials.get(`/hashtags/${tagname}?page=${pageParam}&limit=${limit}`).then((res)=>res.data.data);
+    return fetchData;
+  }
+}
 export function getHashTags(tagname){
   if(tagname) {
     let fetchData=axiosInstanceWithCredentials.get(`/hashtags/${tagname}`).then((res)=>res.data.data);
