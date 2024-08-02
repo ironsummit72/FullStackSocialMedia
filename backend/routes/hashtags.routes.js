@@ -6,16 +6,21 @@ import userModel from '../models/users.models.js'
 const router = Router()
 router.get('/:tagname', async function (req, res) {
 	const {tagname} = req.params
+	const page=parseInt(req.query.page)|| 1;
+	const limit = parseInt(req.query.limit)|| 10
+	const skip=(page-1)*limit
 	if (tagname) {
-		const tagData = await TagsModel.findOne({tagName: tagname}).populate({path: 'posts',match:{postvisibility:'PUBLIC'}})
+		const tagData = await TagsModel.findOne({tagName: tagname}).populate({path: 'posts',options:{limit:limit,skip:skip},match:{postvisibility:'PUBLIC'}})
+        const countDocument=await TagsModel.findOne({tagName: tagname});
+		const totalItems=await countDocument?.posts.length;
 		if (tagData) {
-			res.status(200).json(new ApiResponse('success', 200, tagData, `tag data related to ${tagname}`, null))
+			res.status(200).json(new ApiResponse('success', 200, {totalPages:Math.ceil(totalItems/limit),currentPage:page,tagData}, `tag data related to ${tagname}`, null))
 		} else {
-			res.status(404).json(new ApiResponse('not found', 404, tagData, `tag data related to ${tagname}`, null))
+			res.status(404).json(new ApiResponse('not found', 404, {totalPages:Math.ceil(totalItems/limit),currentPage:page,tagData}, `tag data related to ${tagname}`, null))
 		}
 	}
 })
-// add a router to follow and unfollow a hashtag by the logged in user.
+
 router.post('/:tagname/follow', async function (req, res) {
 	const loggedInUser = req.user?.username
 	const {tagname} = req.params
@@ -41,7 +46,7 @@ router.post('/:tagname/follow', async function (req, res) {
 		}
 	}
 })
-// add a router which will check if the the user is following the hashtag or not
+
 
 router.get('/:tagname/isfollowing', async function (req, res) {
 	const {tagname} = req.params
