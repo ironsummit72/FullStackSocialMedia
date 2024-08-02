@@ -2,39 +2,84 @@ import SideNavBar from "@/components/SideNavBar";
 import Container from "@/components/Container";
 import CreatePostCard from "@/components/CreatePostCard";
 import StoryContainer from "@/components/StoryContainer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { dialogContext } from "@/context/dialogContext";
 import CreatePostDialog from "@/components/Dialogs/CreatePostDialog";
 import PostCard from "@/components/PostCard/PostCard";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getAllPostFeed } from "@/api/QueryFunctions";
+import React from "react";
+import { useInView } from "react-intersection-observer";
 
-
-function Feed() {  
-  const [createPostDialog,setCreatePostDialog]=useState(false);
-  const query=useQuery({
-    queryKey:['feed'],
-    queryFn:()=>getAllPostFeed()
-  })
-  const whatsOnMindOnCLickHandler = ()=>{
-    setCreatePostDialog((state)=>!state);
-  }
-return <div className="bg-gray-100 w-screen h-auto min-h-screen flex overflow-x-hidden">
-<SideNavBar/>
-<Container>
-<StoryContainer>
-{/* // add logic to show stories of other users who they follow */}
-</StoryContainer>
-<dialogContext.Provider value={{createPostDialog,setCreatePostDialog}}>
-<CreatePostDialog/>
-</dialogContext.Provider>
-<CreatePostCard whatsOnMindOnCLick={whatsOnMindOnCLickHandler}/>
-<div className="containerfeed w-full h-auto flex items-center mt-20 flex-col gap-10">
-  {query.data?.map(data=><PostCard key={data} postId={data} />)}
-</div>
-</Container>
-  </div>;
-
+function Feed() {
+  const [createPostDialog, setCreatePostDialog] = useState(false);
+  const { ref, inView, entry } = useInView({
+  });
+  useEffect(() => {
+    fetchNextPage()
+    console.log("fire",inView);
+  }, [inView]);
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ["feed"],
+    queryFn: getAllPostFeed,
+    initialPageParam: 1,
+    getNextPageParam: (pages) => {
+      console.log(pages.totalPages, "lastpage");
+      if (pages.currentPage < pages.totalPages) {
+        return pages.currentPage + 1;
+      } else {
+        return pages.totalPage;
+      }
+    },
+  });
+  const whatsOnMindOnCLickHandler = () => {
+    setCreatePostDialog((state) => !state);
+  };
+  return (
+    <div className="bg-gray-100 w-screen h-auto min-h-screen flex overflow-x-hidden">
+      <SideNavBar />
+      <Container>
+        <StoryContainer/>        
+        <dialogContext.Provider
+          value={{ createPostDialog, setCreatePostDialog }}>
+          <CreatePostDialog />
+        </dialogContext.Provider>
+        <CreatePostCard whatsOnMindOnCLick={whatsOnMindOnCLickHandler} />
+        <div className="containerfeed w-full h-auto flex items-center mt-20 flex-col gap-10">
+          {status === "pending" ? (
+            <h1>loading</h1>
+          ) : status === "error" ? (
+            <h1>error</h1>
+          ) : (
+            <>
+              {data.pages.map((group, i) => (
+                <React.Fragment key={i}>
+                  {group.postIds.map((postId) => (
+                    <PostCard key={postId} postId={postId} />
+                  ))}
+                </React.Fragment>
+              ))}
+              <p ref={ref}>
+                {isFetchingNextPage
+                  ? "Loading more..."
+                  : hasNextPage
+                  ? "Load More"
+                  : "Nothing more to load"}
+              </p>
+            </>
+          )}
+        </div>
+      </Container>
+    </div>
+  );
 }
 
 export default Feed;
