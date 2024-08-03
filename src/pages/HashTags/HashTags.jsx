@@ -40,7 +40,7 @@ function HashTags() {
             return (
               <React.Fragment key={i}>
                 {group.tagData.posts.map((posts) => (
-                  <PostCard key={posts._id} postId={posts._id} />
+                  <PostCard key={posts._id} postId={posts._id}  className={'w-[40%]'} />
                 ))}
               </React.Fragment>
             );
