@@ -10,7 +10,7 @@ function PhotoCard({username}) {
     queryFn:({queryKey})=>getPhotosIntroCard(queryKey[1])
   })
   return (
-    <div className='relative max-w-[35%]   bg-white rounded-lg shadow-2xl mr-20 px-10 py-4 mt-10'>
+    <div className='relative max-w-[100%]   bg-white rounded-lg shadow-2xl mr-20 px-10 py-4  '>
    <div className="headercon flex items-center justify-between">
    <h1 className="Intro font-bold text-black text-lg  ">Photos</h1>
    <Link  to={`/${username}/photos`} className="text-blue-500 font-semibold">See All Photos</Link>

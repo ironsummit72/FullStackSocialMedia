@@ -20,7 +20,7 @@ function IntroCard({username}) {
     }
 }
   return (
-    <div className='relative max-w-[35%] h-[50vh] bg-white rounded-lg shadow-2xl mr-20 px-10 py-4'>
+    <div className='relative max-w-[100%] h-[50vh] bg-white rounded-lg shadow-2xl mr-20 px-10 py-4'>
         <h1 className="Intro font-bold text-black text-lg">Intro</h1>
         <ul className='mt-10 flex flex-col gap-y-6'>
             {data?.profession&&<li className="flex items-center gap-2"> <BriefcaseBusiness />  <span className="text-lg font-bold whitespace-nowrap">Profession</span> · <Link className="text-xl hover:underline truncate">{data?.profession}</Link> </li>}

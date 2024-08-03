@@ -22,13 +22,13 @@ import {  Ellipsis, Globe2, Heart, MessageCircle, Share, User, Users } from "luc
 import linkifyText from "../../utils/linkifyText"
 import Photo from "../Photo"
 import Video from "../Video"
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import { useToast } from "@/shadcomponents/ui/use-toast"
 import ShowLikesDialog from "../Dialogs/ShowLikesDialog"
 import PostCardDropdown from "./PostCardDropdown"
+import {twMerge} from 'tailwind-merge';
 
-
-function PostCard({postId}) {
+function PostCard({postId,className}) {
   const {toast}=useToast()
   const cardRef=useRef(null);
   const queryClient = useQueryClient()
@@ -59,14 +59,14 @@ function PostCard({postId}) {
   const [weekday,month,day,year,time]=new Date(query.data?.createdAt).toString().split(" ")
   const [cweekday,cmonth,cday,cyear,ctime]=new Date(Date.now()).toString().split(" ")
   return (
-    <Card className="w-[50%]" ref={cardRef}>
+    <Card className={twMerge(`w-[50%]`,className)} ref={cardRef}>
       <CardHeader className="flex flex-row gap-2 items-center">
         <DisplayPicture showStoryBorder={true}
           className="w-14 h-14 rounded-full"
           username={query.data?.user?.username}/>
         <div>
-          <CardTitle className="flex items-center gap-3 ">
-            {query.data?.user?.firstname} {query.data?.user?.lastname}
+          <CardTitle className="flex items-center  gap-3 ">
+           <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[75%]"> {query.data?.user?.firstname} {query.data?.user?.lastname}</span>
          {query.data?.postvisibility==="PUBLIC"?<Globe2 className="text-gray-500"/>:query.data?.postvisibility==="ONLYME"?<User className="text-gray-500"/>:query.data?.postvisibility==="FOLLOWERS"?<Users/>:""}
           </CardTitle>
             <CardDescription>
@@ -78,12 +78,12 @@ function PostCard({postId}) {
             {cyear === year ? "" : year}
           </CardDescription>
         </div>
-        <PostCardDropdown username={query.data?.user?.username} postId={postId} className="float-right relative bottom-3 left-[23rem]">
-        <Ellipsis className="float-right relative bottom-3 left-[22rem]"/>
+        <PostCardDropdown username={query.data?.user?.username} postId={postId} className="float-right relative bottom-3 left-[20rem]">
+        <Ellipsis className="float-right relative bottom-3 left-[20em]"/>
         </PostCardDropdown>
       </CardHeader>
       <CardContent className="flex flex-col gap-3 w-full">
-        <p>{linkifyText(query.data?.caption)}</p>
+        <p className="max-w-[90%]">{linkifyText(query.data?.caption)}</p>
         <Carousel className="w-full flex" >
           <CarouselContent className="">
             {query.data?.media.map((media) => {
