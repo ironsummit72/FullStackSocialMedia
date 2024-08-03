@@ -34,6 +34,7 @@ import LikedPost from "./pages/LikedPost.jsx";
 import SavedPost from "./pages/SavedPost.jsx";
 import HashTags from "./pages/HashTags/HashTags.jsx";
 import Stories from "./pages/Stories/Stories.jsx";
+import ShowPost from "./pages/ShowPost.jsx";
 
 const client = new QueryClient();
 const router = createBrowserRouter([
@@ -63,6 +64,13 @@ const router = createBrowserRouter([
             <LikedPost />
           </AuthRouter>
         ),
+      },
+      {
+        path:'/show',
+        children:[{
+          path:'posts/:postId',
+          element:<AuthRouter><ShowPost/></AuthRouter>
+        }]
       },
       {
         path: "/saved",
