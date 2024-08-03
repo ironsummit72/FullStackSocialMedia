@@ -61,7 +61,7 @@ function Feed() {
               {data.pages.map((group, i) => (
                 <React.Fragment key={i}>
                   {group.postIds.map((postId) => (
-                    <PostCard key={postId} postId={postId} />
+                    <PostCard key={postId} postId={postId} className={`w-[51%]`} />
                   ))}
                 </React.Fragment>
               ))}
