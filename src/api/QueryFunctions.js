@@ -191,3 +191,9 @@ export function getIsPostSaved(postId){
     return fetchData;
   }
 }
+export function getUserPostFeed(username,pageParam,limit){
+  if(username){
+    let fetchData=axiosInstanceWithCredentials.get(`/feed/posts/${username}?page=${pageParam}&limit=${limit}`).then((res)=>res.data.data);
+    return fetchData;
+  }
+}
