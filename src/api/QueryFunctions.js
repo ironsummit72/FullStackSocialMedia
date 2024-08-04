@@ -204,3 +204,10 @@ export function getSavedPostInfiniteScroll(username,pageParam,limit){
   }
 
 }
+export function getLikedPostInfiniteScroll(username,pageParam,limit){
+  if(username){
+    let fetchData=axiosInstanceWithCredentials.get(`/post/likedpost/${username}?page=${pageParam}&limit=${limit}`).then((res)=>res.data.data);
+    return fetchData;
+  }
+
+}
