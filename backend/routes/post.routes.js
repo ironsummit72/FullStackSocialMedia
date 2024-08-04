@@ -64,6 +64,28 @@ router.get('/savedpost/:username', async function (req, res) {
 		res.status(401).json(new ApiResponse(`unauthorized',401,null,"you dont have access to the saved posts of ${username}`))
 	}
 })
+router.get('/likedpost/:username', async function (req, res) {
+	const {username} = req.params
+	const loggedInUser=req.user?.username;
+	if(username===loggedInUser)
+	{
+		const page=parseInt(req.query.page)|| 1;
+		const limit = parseInt(req.query.limit)|| 10
+		const skip=(page-1)*limit
+		if (username) {
+			const likedPostData = await userModel.findOne({username: username}).populate({path: 'likedPosts',options:{limit:limit,skip:skip},match:{postvisibility:'PUBLIC'}})
+			const countDocument=await userModel.findOne({username: username});
+			const totalItems=await countDocument?.likedPosts.length;
+			if (likedPostData) {
+				res.status(200).json(new ApiResponse('success', 200, {totalPages:Math.ceil(totalItems/limit),currentPage:page,likedPostData}, `liked posts of ${username}`, null))
+			} else {
+				res.status(404).json(new ApiResponse('not found', 404, {totalPages:Math.ceil(totalItems/limit),currentPage:page,likedPostData}, `liked posts of ${username}`, null))
+			}
+		}
+	}else{
+		res.status(401).json(new ApiResponse(`unauthorized',401,null,"you dont have access to the liked posts of ${username}`))
+	}
+})
 
 router.get('/ispostsaved/:postId', async (req, res) => {
 	const {postId} = req.params
