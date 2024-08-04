@@ -27,6 +27,7 @@ import { useToast } from "@/shadcomponents/ui/use-toast"
 import ShowLikesDialog from "../Dialogs/ShowLikesDialog"
 import PostCardDropdown from "./PostCardDropdown"
 import {twMerge} from 'tailwind-merge';
+import { Link } from "react-router-dom"
 
 function PostCard({postId,className}) {
   const {toast}=useToast()
@@ -66,7 +67,7 @@ function PostCard({postId,className}) {
           username={query.data?.user?.username}/>
         <div>
           <CardTitle className="flex items-center  gap-3 ">
-           <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[75%]"> {query.data?.user?.firstname} {query.data?.user?.lastname}</span>
+           <Link to={`${query.data?.user?.username}`} className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[75%]"> {query.data?.user?.firstname} {query.data?.user?.lastname}</Link>
          {query.data?.postvisibility==="PUBLIC"?<Globe2 className="text-gray-500"/>:query.data?.postvisibility==="ONLYME"?<User className="text-gray-500"/>:query.data?.postvisibility==="FOLLOWERS"?<Users/>:""}
           </CardTitle>
             <CardDescription>
