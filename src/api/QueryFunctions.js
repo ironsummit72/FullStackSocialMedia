@@ -197,3 +197,10 @@ export function getUserPostFeed(username,pageParam,limit){
     return fetchData;
   }
 }
+export function getSavedPostInfiniteScroll(username,pageParam,limit){
+  if(username){
+    let fetchData=axiosInstanceWithCredentials.get(`/post/savedpost/${username}?page=${pageParam}&limit=${limit}`).then((res)=>res.data.data);
+    return fetchData;
+  }
+
+}
