@@ -4,7 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux'
-import { Card,CardContent } from '@/shadcomponents/ui/card';
+
 
 function SavedPost() {
   const { ref, inView } = useInView({
