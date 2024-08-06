@@ -3,36 +3,81 @@ import { useQuery } from "@tanstack/react-query";
 import { getDisplayPicture, getHasStory } from "@/api/QueryFunctions";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/shadcomponents/ui/dropdown-menu"
 
 function DisplayPicture({ username, className,showStoryBorder, }) {
-  const [displaypicture, setDisplayPicture] = useState("null");
+  const [displaypicture, setDisplayPicture] = useState("/nodp.svg");
   const {data:hasstorydata}=useQuery({queryKey:['hastory',username],queryFn:({queryKey})=>getHasStory(queryKey[1]),enabled:!!username})
   const loggedInuser=useSelector((state)=>state.userData?.username)
   const { data } = useQuery({ queryKey: ["displaypicture", username? username:loggedInuser],queryFn:({queryKey})=>getDisplayPicture(queryKey[1]),enabled:!!loggedInuser});
-
   useEffect(()=>{
-   if(data)
+   if(data?.size>200)
     {
       setDisplayPicture(URL.createObjectURL(data))
+    }else{
+      setDisplayPicture('/nodp.svg')
     }
   },[data])
-
-
-  if(hasstorydata)
+  if(loggedInuser!==username)
   {
-    return (
-      <Link to={`/stories/${username}`} >
-        <img className={`${className} ${hasstorydata===true && showStoryBorder==true?'gradientborder-story':''}`} src={displaypicture} alt="" />
-      </Link>
-    );
+    if(hasstorydata)
+      {
+        return (
+          <Link to={`/stories/${username}`} >
+            <img className={`${className} ${hasstorydata===true && showStoryBorder==true?'gradientborder-story':''}`} src={displaypicture} alt="" />
+          </Link>
+        );
+      }else{
+        return (
+          <div >
+            <img className={`${className} ${hasstorydata===true && showStoryBorder==true?'gradientborder-story':''}`} src={displaypicture} alt="" />
+          </div>
+        );
+      }
   }else{
-    return (
-      <div >
-        <img className={`${className} ${hasstorydata===true && showStoryBorder==true?'gradientborder-story':''}`} src={displaypicture} alt="" />
-      </div>
-    );
+    if(hasstorydata)
+      {
+        return (
+          <DropdownMenu>
+          <DropdownMenuTrigger className="outline-none">
+          <img className={`${className} ${hasstorydata===true && showStoryBorder==true?'gradientborder-story':''}`} src={displaypicture} alt="" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem><Link to={`/set/dp`}>Edit Avatar</Link></DropdownMenuItem>
+            <DropdownMenuItem><Link to={`/stories/${username}`}>View Story</Link></DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        );
+      }else{
+        return (
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="outline-none">
+                <img
+                  className={`${className} ${
+                    hasstorydata === true && showStoryBorder == true
+                      ? "gradientborder-story"
+                      : ""
+                  }`}
+                  src={displaypicture}
+                  alt=""
+                />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>
+                  <Link to={`/set/dp`}>Edit Avatar</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        );
+      }
   }
-
 }
 
 export default DisplayPicture;
