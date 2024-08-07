@@ -8,7 +8,7 @@ function CreateStoryCard() {
     <Card>
       <CardContent className="max-w-40 min-w-40 h-72 shadow-xl rounded-md ml-5 transition ease-in-out delay-150  hover:scale-105 cursor-pointer p-0">
         <div className="w-full flex flex-col">
-          <DisplayPicture className="rounded-t-md hover:rounded-t-md" />
+          <DisplayPicture className="rounded-t-md hover:rounded-t-md" size={320} />
           <CreateStoryDialog> 
           <Button
             className="rounded-full h-14 w-14 relative left-12 bottom-7 border-4 border-white"

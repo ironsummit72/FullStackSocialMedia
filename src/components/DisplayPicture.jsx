@@ -10,11 +10,11 @@ import {
   DropdownMenuTrigger,
 } from "@/shadcomponents/ui/dropdown-menu"
 
-function DisplayPicture({ username, className,showStoryBorder, }) {
+function DisplayPicture({ username, className,showStoryBorder,size=320 }) {
   const [displaypicture, setDisplayPicture] = useState("/nodp.svg");
   const {data:hasstorydata}=useQuery({queryKey:['hastory',username],queryFn:({queryKey})=>getHasStory(queryKey[1]),enabled:!!username})
   const loggedInuser=useSelector((state)=>state.userData?.username)
-  const { data } = useQuery({ queryKey: ["displaypicture", username? username:loggedInuser],queryFn:({queryKey})=>getDisplayPicture(queryKey[1]),enabled:!!loggedInuser});
+  const { data } = useQuery({ queryKey: ["displaypicture", username? username:loggedInuser,size],queryFn:({queryKey})=>getDisplayPicture(queryKey[1],queryKey[2]),enabled:!!loggedInuser});
   useEffect(()=>{
    if(data?.size>200)
     {

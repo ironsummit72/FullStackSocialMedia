@@ -7,19 +7,39 @@ const router = Router()
 
 router.get('/displaypicture', async (req, res) => {
 	const {username} = req.user
-	if (username) {
+	const size=parseInt(req.query.size)||320
+	if (username&&size) {
+		const userData = await userModel.findOne({username})
+		const readableStream = fs.createReadStream(`./uploads/displaypicture/${size}/${userData?.displaypicture}`)
+		readableStream.on('data', (chunk) => res.write(chunk))
+		readableStream.on('end', () => res.end())
+		readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
+	}else if(username)
+		{
 		const userData = await userModel.findOne({username})
 		const readableStream = fs.createReadStream(`./uploads/displaypicture/${userData?.displaypicture}`)
 		readableStream.on('data', (chunk) => res.write(chunk))
 		readableStream.on('end', () => res.end())
 		readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
-	} else {
-		res.status(400).json(new ApiResponse('error', 400, null, 'usernotfound', null))
+	}
+	else {
+		res.status(400).json(new ApiResponse('error', 400, null, 'usernotfound or invalid size', null))
 	}
 })
 router.get('/displaypicture/:username', async (req, res) => {
 	const {username} = req.params
-	if (username) {
+	const size=parseInt(req.query.size)||320
+	if (username&&size) {
+		const userData = await userModel.findOne({username})
+		if (userData) {
+			const readableStream = fs.createReadStream(`./uploads/displaypicture/${size}/${userData.displaypicture}`)
+			readableStream.on('data', (chunk) => res.write(chunk))
+			readableStream.on('end', () => res.end())
+			readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
+		}
+	} 
+	else if(username)
+	{
 		const userData = await userModel.findOne({username})
 		if (userData) {
 			const readableStream = fs.createReadStream(`./uploads/displaypicture/${userData.displaypicture}`)
@@ -27,7 +47,8 @@ router.get('/displaypicture/:username', async (req, res) => {
 			readableStream.on('end', () => res.end())
 			readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
 		}
-	} else {
+	}
+	else {
 		res.status(400).json(new ApiResponse('error', 400, null, 'please provide username', null))
 	}
 })

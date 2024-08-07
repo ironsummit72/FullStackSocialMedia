@@ -62,7 +62,7 @@ function PostCard({postId,className}) {
   return (
     <Card className={twMerge(`w-[50%]`,className)} ref={cardRef}>
       <CardHeader className="flex flex-row gap-2 items-center">
-        <DisplayPicture showStoryBorder={true}
+        <DisplayPicture showStoryBorder={true} size={240}
           className="w-14 h-14 rounded-full"
           username={query.data?.user?.username}/>
         <div>

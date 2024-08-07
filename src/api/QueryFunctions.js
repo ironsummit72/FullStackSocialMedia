@@ -64,12 +64,19 @@ export function getFollowers(username,shuf='true') {
   ).then((res)=>res.data.data);
   return fetchData;
 }
-export function getDisplayPicture(username) {
-  if (username) {
+export function getDisplayPicture(username,size) {
+  if (username&&size) {
+
+    
     let fetchData = axiosInstanceWithCredentials
-      .get(`resource/displaypicture/${username}`, { responseType: "blob" })
+      .get(`/resource/displaypicture/${username}?size=${size}`, { responseType: "blob" })
       .then((res) => res.data);
     return fetchData;
+  }else{
+    let fetchData = axiosInstanceWithCredentials
+    .get(`resource/displaypicture/${username}`, { responseType: "blob" })
+    .then((res) => res.data);
+  return fetchData;
   }
 }
 export function getCoverPicture(username) {
