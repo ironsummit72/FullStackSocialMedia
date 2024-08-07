@@ -74,7 +74,7 @@ function UserProfile() {
       <div className="w-screen h-screen ">
         <div className="con w-full h-[90%] bg-white shadow-2xl">
           <CoverPicture username={data?.username} />
-          <DisplayPicture showStoryBorder={true}
+          <DisplayPicture showStoryBorder={true} size={640}
             username={data?.username}
             className="w-[15em] h-[15em] rounded-full relative left-[10em] bottom-[2em] border-4 border-white"
           />
