@@ -7,48 +7,43 @@ const router = Router()
 
 router.get('/displaypicture', async (req, res) => {
 	const {username} = req.user
-	const size=parseInt(req.query.size)||320
-	if (username&&size) {
+	const size = parseInt(req.query.size) || 320
+	if (username && size) {
 		const userData = await userModel.findOne({username})
 		const readableStream = fs.createReadStream(`./uploads/displaypicture/${size}/${userData?.displaypicture}`)
-		readableStream.on('data', (chunk) => res.write(chunk))
-		readableStream.on('end', () => res.end())
-		readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
-	}else if(username)
-		{
+		const mimetype = userData?.displaypicture.toString().split('.')[1]
+		res.setHeader('Content-Type', `image/${mimetype}`)
+		readableStream.pipe(res)
+	} else if (username) {
 		const userData = await userModel.findOne({username})
 		const readableStream = fs.createReadStream(`./uploads/displaypicture/${userData?.displaypicture}`)
-		readableStream.on('data', (chunk) => res.write(chunk))
-		readableStream.on('end', () => res.end())
-		readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
-	}
-	else {
+		const mimetype = userData?.displaypicture.toString().split('.')[1]
+		res.setHeader('Content-Type', `image/${mimetype}`)
+		readableStream.pipe(res)
+	} else {
 		res.status(400).json(new ApiResponse('error', 400, null, 'usernotfound or invalid size', null))
 	}
 })
 router.get('/displaypicture/:username', async (req, res) => {
 	const {username} = req.params
-	const size=parseInt(req.query.size)||320
-	if (username&&size) {
+	const size = parseInt(req.query.size) || 320
+	if (username && size) {
 		const userData = await userModel.findOne({username})
 		if (userData) {
 			const readableStream = fs.createReadStream(`./uploads/displaypicture/${size}/${userData.displaypicture}`)
-			readableStream.on('data', (chunk) => res.write(chunk))
-			readableStream.on('end', () => res.end())
-			readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
+			const mimetype = userData?.displaypicture.toString().split('.')[1]
+			res.setHeader('Content-Type', `image/${mimetype}`)
+			readableStream.pipe(res)
 		}
-	} 
-	else if(username)
-	{
+	} else if (username) {
 		const userData = await userModel.findOne({username})
 		if (userData) {
 			const readableStream = fs.createReadStream(`./uploads/displaypicture/${userData.displaypicture}`)
-			readableStream.on('data', (chunk) => res.write(chunk))
-			readableStream.on('end', () => res.end())
-			readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
+			const mimetype = userData?.displaypicture.toString().split('.')[1]
+			res.setHeader('Content-Type', `image/${mimetype}`)
+			readableStream.pipe(res)
 		}
-	}
-	else {
+	} else {
 		res.status(400).json(new ApiResponse('error', 400, null, 'please provide username', null))
 	}
 })
@@ -58,9 +53,9 @@ router.get('/coverpicture', async (req, res) => {
 		const userData = await userModel.findOne({username})
 		if (userData) {
 			const readableStream = fs.createReadStream(`./uploads/coverpicture/${userData.coverpicture}`)
-			readableStream.on('data', (chunk) => res.write(chunk))
-			readableStream.on('end', () => res.end())
-			readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
+			const mimetype = userData?.coverpicture.toString().split('.')[1]
+			res.setHeader('Content-Type', `image/${mimetype}`)
+			readableStream.pipe(res)
 		}
 	} else {
 		res.status(400).json(new ApiResponse('error', 400, null, 'usernotfound', null))
@@ -72,9 +67,9 @@ router.get('/coverpicture/:username', async (req, res) => {
 		const userData = await userModel.findOne({username})
 		if (userData) {
 			const readableStream = fs.createReadStream(`./uploads/coverpicture/${userData.coverpicture}`)
-			readableStream.on('data', (chunk) => res.write(chunk))
-			readableStream.on('end', () => res.end())
-			readableStream.on('error', (err) => res.json(new ApiResponse('error', 400, err.message, 'file not found', null)))
+			const mimetype = userData?.coverpicture.toString().split('.')[1]
+			res.setHeader('Content-Type', `image/${mimetype}`)
+			readableStream.pipe(res)
 		}
 	} else {
 		res.status(400).json(new ApiResponse('error', 400, null, 'usernotfound', null))
@@ -85,7 +80,7 @@ router.get('/photos/:username', async (req, res) => {
 	if (username) {
 		const userData = await userModel.findOne({username: username})
 		if (userData) {
-			if(req.query.limit) {
+			if (req.query.limit) {
 				const postData = await postModel.aggregate([
 					{
 						$unwind: {
@@ -100,27 +95,27 @@ router.get('/photos/:username', async (req, res) => {
 						},
 					},
 					{
-						$match:{
-							user:userData._id
-						}
+						$match: {
+							user: userData._id,
+						},
 					},
 					{
-    $sort:
-      /**
-       * Provide any number of field/order pairs.
-       */
-      {
-        createdAt: -1
-      }
-  },
-					{$limit:parseInt(req.query?.limit)}
+						$sort:
+							/**
+							 * Provide any number of field/order pairs.
+							 */
+							{
+								createdAt: -1,
+							},
+					},
+					{$limit: parseInt(req.query?.limit)},
 				])
-				if (postData) {			
+				if (postData) {
 					res.status(200).json(new ApiResponse('success', '200', postData, `photos  of ${username} `, null))
 				} else {
 					res.status(200).json(new ApiResponse('success', '200', postData, `photos not available of ${username} `, null))
 				}
-			}else{
+			} else {
 				const postData = await postModel.aggregate([
 					{
 						$unwind: {
@@ -134,7 +129,6 @@ router.get('/photos/:username', async (req, res) => {
 							},
 						},
 					},
-					
 				])
 				if (postData) {
 					res.status(200).json(new ApiResponse('success', '200', postData, `${username} photos`, null))
@@ -142,10 +136,7 @@ router.get('/photos/:username', async (req, res) => {
 					res.status(200).json(new ApiResponse('success', '200', postData, `photos not available of ${username} `, null))
 				}
 			}
-			
-			
 		}
-
 	}
 })
 router.get('/videos/:username', async (req, res) => {
