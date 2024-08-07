@@ -42,7 +42,7 @@ function Navbar() {
             </div>
             <div className="notification h-14 w-14 bg-slate-300 rounded-full flex justify-center items-center">
              <ProfileDropDown className='w-24 h-24'>
-             <DisplayPicture className="w-14 h-14 rounded-full "/>
+             <DisplayPicture className="w-14 h-14 rounded-full " size={240}/>
              </ProfileDropDown>
             </div>
           </div>
