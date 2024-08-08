@@ -3,7 +3,9 @@ import ApiResponse from '../utils/ApiResponse.util.js'
 import multerUpload from '../middlewares/multer.middleware.js'
 import StoryModel from '../models/stories.models.js'
 import userModel from '../models/users.models.js'
-import fs from 'fs';
+import fs from 'fs'
+import cropVideo from '../utils/ffmpegDownScaleStories.util.js'
+import path from 'path'
 
 // import the stories model here.
 const router = Router()
@@ -42,6 +44,12 @@ router.get('/sid/:storyId', async function (req, res) {
 router.post('/create', multerUpload.single('story'), async function (req, res) {
 	const {caption} = req.body
 	const loggedInUser = req?.user.username
+	const outputfilepath = path.join('uploads/story', `${req.file.filename}`)
+	if (req.file.mimetype.split('/')[0] === 'video') {
+		await cropVideo(req.file.path, outputfilepath)
+
+	}
+
 	if (req.file && loggedInUser) {
 		const userData = await userModel.findOne({username: loggedInUser})
 		if (userData) {
@@ -90,7 +98,9 @@ router.get('/showviews/:storyId', async function (req, res) {
 	const {storyId} = req.params
 	if (storyId) {
 		try {
-			const storyData = await StoryModel.findById(storyId).populate({path: 'views', select: '-password'}).select('-caption ')
+			const storyData = await StoryModel.findById(storyId)
+				.populate({path: 'views', select: '-password'})
+				.select('-caption ')
 			res.status(200).json(new ApiResponse('success', 200, storyData, 'storyviews', null))
 		} catch (error) {
 			console.error(error)
@@ -100,8 +110,6 @@ router.get('/showviews/:storyId', async function (req, res) {
 	}
 })
 
-
-
 router.get('/hasstory/:username', async function (req, res) {
 	const {username} = req.params
 	if (username) {
@@ -109,7 +117,7 @@ router.get('/hasstory/:username', async function (req, res) {
 		const userData = await userModel.findOne({username})
 		if (userData) {
 			const storyData = await StoryModel.find({user: userData._id}).populate({path: 'user', select: '-password'})
-			if (storyData.length>0) {
+			if (storyData.length > 0) {
 				res.status(200).json(new ApiResponse(200, 'success', true, `stories of ${username}`, null))
 			} else {
 				res.status(404).json(new ApiResponse(404, 'success', false, `no stories of ${username}`, null))
@@ -118,14 +126,13 @@ router.get('/hasstory/:username', async function (req, res) {
 	}
 })
 
-
 router.delete('/:storyId', async function (req, res) {
 	const {storyId} = req.params
 	if (storyId) {
 		const storyData = await StoryModel.findByIdAndDelete(storyId)
 		if (storyData) {
-			fs.unlink(storyData.content?.path,(err)=>{
-				console.error(err);
+			fs.unlink(`./uploads/story/${storyData.content?.filename}`, (err) => {
+				console.error(err)
 			})
 			res.status(204).json(new ApiResponse('no-content', 204, null, 'story deleted successfully', null))
 		} else {
