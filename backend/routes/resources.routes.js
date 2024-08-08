@@ -29,7 +29,7 @@ router.get('/displaypicture/:username', async (req, res) => {
 	const size = parseInt(req.query.size) || 320
 	if (username && size) {
 		const userData = await userModel.findOne({username})
-		if (userData) {
+		if (userData.displaypicture) {
 			const readableStream = fs.createReadStream(`./uploads/displaypicture/${size}/${userData.displaypicture}`)
 			const mimetype = userData?.displaypicture.toString().split('.')[1]
 			res.setHeader('Content-Type', `image/${mimetype}`)
@@ -37,7 +37,7 @@ router.get('/displaypicture/:username', async (req, res) => {
 		}
 	} else if (username) {
 		const userData = await userModel.findOne({username})
-		if (userData) {
+		if (userData.displaypicture) {
 			const readableStream = fs.createReadStream(`./uploads/displaypicture/${userData.displaypicture}`)
 			const mimetype = userData?.displaypicture.toString().split('.')[1]
 			res.setHeader('Content-Type', `image/${mimetype}`)
@@ -65,7 +65,7 @@ router.get('/coverpicture/:username', async (req, res) => {
 	const {username} = req.params
 	if (username) {
 		const userData = await userModel.findOne({username})
-		if (userData) {
+		if (userData.coverpicture) {
 			const readableStream = fs.createReadStream(`./uploads/coverpicture/${userData.coverpicture}`)
 			const mimetype = userData?.coverpicture.toString().split('.')[1]
 			res.setHeader('Content-Type', `image/${mimetype}`)
