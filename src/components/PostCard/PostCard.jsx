@@ -60,17 +60,17 @@ function PostCard({postId,className}) {
   const [weekday,month,day,year,time]=new Date(query.data?.createdAt).toString().split(" ")
   const [cweekday,cmonth,cday,cyear,ctime]=new Date(Date.now()).toString().split(" ")
   return (
-    <Card className={twMerge(`w-[50%]`,className)} ref={cardRef}>
-      <CardHeader className="flex flex-row gap-2 items-center">
+    <Card className={twMerge(`w-[400px] md:w-[30%]`,className)} ref={cardRef}>
+      <CardHeader className="flex flex-row gap-2 items-center  ">
         <DisplayPicture showStoryBorder={true} size={240}
           className="w-14 h-14 rounded-full"
           username={query.data?.user?.username}/>
-        <div>
-          <CardTitle className="flex items-center  gap-3 ">
+        <div >
+          <CardTitle  className="flex items-center  gap-3 ">
            <Link to={`${query.data?.user?.username}`} className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[75%]"> {query.data?.user?.firstname} {query.data?.user?.lastname}</Link>
          {query.data?.postvisibility==="PUBLIC"?<Globe2 className="text-gray-500"/>:query.data?.postvisibility==="ONLYME"?<User className="text-gray-500"/>:query.data?.postvisibility==="FOLLOWERS"?<Users/>:""}
           </CardTitle>
-            <CardDescription>
+            <CardDescription  >
             {" "}
             {cday === day
               ? time.split(":")[0] + ":" + time.split(":")[1] + " "
@@ -79,9 +79,11 @@ function PostCard({postId,className}) {
             {cyear === year ? "" : year}
           </CardDescription>
         </div>
-        <PostCardDropdown username={query.data?.user?.username} postId={postId} className="float-right relative bottom-3 left-[20rem]">
-        <Ellipsis className="float-right relative bottom-3 left-[20em]"/>
+       <div className="w-[62%]  flex justify-end">
+       <PostCardDropdown username={query.data?.user?.username} postId={postId} className="float-right">
+        <Ellipsis className="float-right relative "/>
         </PostCardDropdown>
+       </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-3 w-full">
         <p className="max-w-[90%]">{linkifyText(query.data?.caption)}</p>
