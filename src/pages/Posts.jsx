@@ -46,7 +46,7 @@ function Posts() {
                   <PostCard
                     key={posts._id}
                     postId={posts._id}
-                    className={"w-[95%]"}
+                    className={"w-[95%] md:w-[80%]"}
                   />
                 ))}
               </React.Fragment>

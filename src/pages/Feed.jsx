@@ -4,7 +4,7 @@ import CreatePostCard from "@/components/CreatePostCard";
 import StoryContainer from "@/components/StoryContainer";
 import { useEffect, useState } from "react";
 import { dialogContext } from "@/context/dialogContext";
-import CreatePostDialog from "@/components/Dialogs/CreatePostDialog";
+import CreatePostDialog from "@/components/Dialogs/CreatePostDialog/CreatePostDialog";
 import PostCard from "@/components/PostCard/PostCard";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getAllPostFeed } from "@/api/QueryFunctions";
