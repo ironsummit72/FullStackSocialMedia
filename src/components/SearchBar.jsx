@@ -17,7 +17,7 @@ function SearchBar() {
   const [showSuggestions,setShowSuggestions] = useState(isSuccess);
   return (
     <div className="">
-      <div className="searchContainer mb-2">
+      <div className="hidden md:block searchContainer mb-2">
         <Input ref={searchRef}
           className="w-72 relative top-1 rounded-full bg-gray-300/50"
           placeholder="Search Users"

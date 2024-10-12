@@ -11,7 +11,7 @@ services:
     depends_on:
       - backend
       - frontend
-    restart: always
+    restart: on-failure
     build:
       context: ./webserver
       dockerfile: Dockerfile
@@ -30,7 +30,7 @@ services:
       - ORIGIN_URL=http://localhost:3005
     ports:
       - "5001:5001"
-    restart: always
+    restart: on-failure
     volumes:
       - file_data:/app/uploads
 

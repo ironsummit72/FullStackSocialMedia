@@ -60,7 +60,7 @@ function PostCard({postId,className}) {
   const [weekday,month,day,year,time]=new Date(query.data?.createdAt).toString().split(" ")
   const [cweekday,cmonth,cday,cyear,ctime]=new Date(Date.now()).toString().split(" ")
   return (
-    <Card className={twMerge(`w-[400px] md:w-[30%]`,className)} ref={cardRef}>
+    <Card className={twMerge(`w-[400px] md:w-[50%]`,className)} ref={cardRef}>
       <CardHeader className="flex flex-row gap-2 items-center  ">
         <DisplayPicture showStoryBorder={true} size={240}
           className="w-14 h-14 rounded-full"

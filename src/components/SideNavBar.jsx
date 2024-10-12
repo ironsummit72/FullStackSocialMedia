@@ -1,13 +1,13 @@
 import { Button } from "@/shadcomponents/ui/button";
 import { Link } from "react-router-dom";
 import DisplayPicture from "@/components/DisplayPicture";
-import { Bookmark, MonitorPlay, Users, Gamepad2 } from "lucide-react";
+import { Bookmark, MonitorPlay } from "lucide-react";
 import { useSelector } from "react-redux";
 
 function SideNavBar() {
     const state=useSelector(state=>state.userData);
   return (
-    <div className="w-96 h-screen bg-white sticky top-0 z-10">
+    <div className="w-96 h-screen  hidden md:block sticky top-0 z-10">
       <ul className= "space-y-10">
       <li className="hover:bg-gray-300 w-[90%] rounded-md p-2 flex items-center">
           <Button asChild variant="ghost" className="w-full">
