@@ -127,6 +127,7 @@ function CreatePostDialog() {
             toast("Post created successfully", {
               description: "you can view the post in you post section",
             });
+            queryClient.invalidateQueries({ queryKey: ["feed"] });
           }
         })
         .catch((error) => {
