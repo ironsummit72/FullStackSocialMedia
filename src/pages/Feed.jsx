@@ -67,7 +67,7 @@ function Feed() {
               ))}
               <p ref={ref}>
                 {isFetchingNextPage
-                  ? "Loading more..."
+                  ? <img src="/loading.svg" alt='loading' title="loading" className="h-20"/>
                   : hasNextPage
                   ? "Load More"
                   : "Nothing more to load"}
